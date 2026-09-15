@@ -1,0 +1,45 @@
+/* =============================================================================
+   print.css — used when the report tab is printed or saved as PDF.
+   Forces the light token set (charts are drawn against a white surface), drops
+   site chrome, and keeps figures from breaking across pages.
+   ========================================================================== */
+@media print {
+  :root, :root[data-theme="dark"] {
+    color-scheme: light;
+    --plane: #ffffff; --surface: #ffffff; --surface-2: #f4f4f1; --surface-sunk: #f4f4f1;
+    --ink: #000000; --ink-2: #333333; --ink-muted: #5c5c58;
+    --rule: #d8d7d0; --axis: #b0afa8;
+    --accent: #1c5cab; --accent-deep: #14406f; --accent-wash: #eef3fa;
+    --shadow: none;
+  }
+  @page { margin: 18mm 16mm; }
+
+  body { background: #fff; font-size: 10.5pt; line-height: 1.45; }
+  .banner, .footer, .toolbar, .no-print, .skip-link, .theme-toggle, .nav-toggle, .tip { display: none !important; }
+  .section { padding-block: 0; }
+  .wrap { width: 100%; }
+  .report { border: 0; padding: 0; border-radius: 0; }
+
+  /* Keep a chart with its caption, and never split one across a page break. */
+  .figure, .stat, .quote, .rec, .finding, table.data { break-inside: avoid; page-break-inside: avoid; }
+  .figure { border: 1px solid var(--rule); padding: 10pt; margin-bottom: 10pt; }
+  h1, h2, h3, h4 { break-after: avoid; page-break-after: avoid; }
+  .report h2 { break-before: page; page-break-before: always; padding-top: 0; border-top: 0; }
+  .report h2:first-of-type, .report h2.no-break { break-before: auto; page-break-before: auto; }
+
+  /* Print the destination of real links, but not of in-page anchors. */
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 8pt; color: #5c5c58; word-break: break-all; }
+  a { color: #14406f; text-decoration: none; }
+
+  /* Paper is narrower than a desktop window: side-by-side figures squeeze the
+     category labels until they truncate, so stack them. Stat tiles are short
+     enough to stay in a row. */
+  .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr !important; }
+  .cartogram { grid-template-columns: 1fr !important; }
+  .stats { grid-template-columns: repeat(4, 1fr); gap: 8pt; }
+  .stat { padding: 8pt; }
+  .print-only { display: block !important; }
+  svg { max-width: 100%; height: auto; }
+  table.data th { position: static; }
+}
+.print-only { display: none; }

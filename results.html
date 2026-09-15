@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Results and maps | UK Youth Consultation for CHOGM</title>
+<meta name="description" content="Live results from the UK Young Ambassadors' youth consultation: responses by nation and region, policy ratings, and the priority gap.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/print.css">
+</head>
+<body data-page="results">
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="banner">
+  <div class="wrap banner__bar">
+    <a class="brandmark" href="index.html">
+      <span class="brandmark__crest" aria-hidden="true">UKYA</span>
+      <span class="brandmark__text">
+        <span class="brandmark__name">UK Young Ambassadors</span>
+        <span class="brandmark__sub">Commonwealth Consultation</span>
+      </span>
+    </a>
+    <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="site-nav" aria-label="Show navigation">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="nav" id="site-nav" data-nav aria-label="Main">
+      <ul class="nav__list">
+        <li><a class="nav__link" data-page="home" href="index.html">About</a></li>
+        <li><a class="nav__link" data-page="consultation" href="consultation.html">The consultation</a></li>
+        <li><a class="nav__link" data-page="results" href="results.html">Results and maps</a></li>
+        <li><a class="nav__link" data-page="report" href="report.html">Report</a></li>
+        <li><button class="theme-toggle" data-theme-toggle type="button" aria-label="Switch theme"></button></li>
+        <li><a class="nav__link nav__cta" href="consultation.html">Take part</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="section" style="padding-block:var(--sp-6) var(--sp-5)">
+    <div class="wrap">
+      <span class="eyebrow">Live results</span>
+      <h1 style="font-size:var(--step-3)">What young people are telling us</h1>
+      <p class="lede">
+        Every chart on this page is drawn from the consultation responses as they arrive. Nothing is
+        hand-edited. Use the filters to look at a single nation, region or age group, and open
+        “show the numbers” under any chart to read the underlying values.
+      </p>
+      <div data-draft-notice></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-block:0 var(--sp-8)">
+    <div class="wrap">
+
+      <!-- Filters and data source, one row above the charts -->
+      <div class="toolbar no-print" role="region" aria-label="Filters and data source">
+        <span class="status-pill" id="status-pill">
+          <span class="status-pill__dot"></span><span id="status-text">Loading…</span>
+        </span>
+        <div class="toolbar__group">
+          <label class="toolbar__label" for="filter-region">Nation or region</label>
+          <select id="filter-region"><option value="">All of the UK</option></select>
+        </div>
+        <div class="toolbar__group">
+          <label class="toolbar__label" for="filter-age">Age</label>
+          <select id="filter-age"><option value="">All ages</option></select>
+        </div>
+        <div class="toolbar__group" style="margin-left:auto">
+          <button class="btn btn--quiet btn--sm" type="button" id="btn-refresh">Refresh</button>
+          <button class="btn btn--quiet btn--sm" type="button" id="btn-connect" aria-expanded="false" aria-controls="connect-panel">Connect data</button>
+          <button class="btn btn--quiet btn--sm" type="button" id="btn-download">Download aggregates</button>
+        </div>
+      </div>
+
+      <div class="card no-print" id="connect-panel" hidden style="margin-bottom:var(--sp-5)">
+        <h3 style="font-size:var(--step-1)">Where the results come from</h3>
+        <p class="muted" style="font-size:var(--step--1)">
+          Paste the published CSV link from the responses spreadsheet
+          (<em>File › Share › Publish to web › Comma-separated values</em>). It is stored in this browser only.
+          For a one-off look you can instead upload a CSV downloaded from Sheets — nothing leaves your device.
+        </p>
+        <div class="toolbar" style="margin-bottom:0">
+          <input type="url" id="csv-url" placeholder="https://docs.google.com/spreadsheets/d/e/…/pub?output=csv" style="flex:1 1 320px">
+          <button class="btn btn--primary btn--sm" type="button" id="btn-save-url">Use this link</button>
+          <button class="btn btn--quiet btn--sm" type="button" id="btn-clear-url">Reset to default</button>
+          <label class="btn btn--quiet btn--sm" for="csv-file" style="cursor:pointer">Upload a CSV
+            <input type="file" id="csv-file" accept=".csv,text/csv" class="visually-hidden">
+          </label>
+        </div>
+        <p id="connect-message" class="muted" style="font-size:var(--step--1);margin:var(--sp-3) 0 0"></p>
+      </div>
+
+      <div id="dashboard" hidden>
+
+        <!-- Headline figures -->
+        <div class="stats" style="margin-bottom:var(--sp-5)">
+          <div class="stat">
+            <div class="stat__label">Responses</div>
+            <div class="stat__value stat__value--hero tnum" id="stat-total">—</div>
+            <div class="stat__note" id="stat-total-note"></div>
+          </div>
+          <div class="stat">
+            <div class="stat__label">Nations and regions covered</div>
+            <div class="stat__value tnum" id="stat-regions">—</div>
+            <div class="stat__note">of 12 across the UK</div>
+          </div>
+          <div class="stat">
+            <div class="stat__label">Largest priority gap</div>
+            <div class="stat__value" id="stat-gap">—</div>
+            <div class="stat__note" id="stat-gap-note"></div>
+          </div>
+          <div class="stat">
+            <div class="stat__label">Most asked to bring back</div>
+            <div class="stat__value" style="font-size:var(--step-1);line-height:1.25" id="stat-reintroduce">—</div>
+            <div class="stat__note" id="stat-reintroduce-note"></div>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <figure class="figure figure--wide" id="fig-map" style="margin-bottom:var(--sp-5)">
+          <div class="figure__head">
+            <h2 class="figure__title">Where responses have come from</h2>
+            <p class="figure__sub">
+              Each tile is one UK nation or region, shaded by how many young people there have responded.
+              Tiles are equal in size so that London does not disappear and the Highlands do not dominate —
+              the colour, not the area, carries the number.
+            </p>
+          </div>
+          <div class="figure__body cartogram">
+            <div id="map-host"></div>
+            <div>
+              <div id="map-legend" style="margin-bottom:var(--sp-4)"></div>
+              <div id="map-ranking"></div>
+            </div>
+          </div>
+          <figcaption class="figure__foot">
+            <span id="map-foot"></span>
+          </figcaption>
+        </figure>
+
+        <!-- Bring it back -->
+        <figure class="figure figure--wide" id="fig-reintroduce" style="margin-bottom:var(--sp-5)">
+          <div class="figure__head">
+            <h2 class="figure__title">What young people want government to bring back</h2>
+            <p class="figure__sub">Share of respondents choosing each option among their top three.</p>
+          </div>
+          <div class="figure__body" id="chart-reintroduce"></div>
+          <figcaption class="figure__foot"><span id="reintroduce-foot"></span></figcaption>
+        </figure>
+
+        <!-- Biggest problems, UK and Commonwealth -->
+        <div class="grid grid--2" style="margin-bottom:var(--sp-5)">
+          <figure class="figure" id="fig-uk-problem">
+            <div class="figure__head">
+              <h2 class="figure__title">The biggest problem facing young people in the UK</h2>
+              <p class="figure__sub">One choice per respondent.</p>
+            </div>
+            <div class="figure__body" id="chart-uk-problem"></div>
+            <figcaption class="figure__foot"><span id="uk-problem-foot"></span></figcaption>
+          </figure>
+          <figure class="figure" id="fig-cw-problem">
+            <div class="figure__head">
+              <h2 class="figure__title">The biggest problem facing young people across the Commonwealth</h2>
+              <p class="figure__sub">One choice per respondent.</p>
+            </div>
+            <div class="figure__body" id="chart-cw-problem"></div>
+            <figcaption class="figure__foot"><span id="cw-problem-foot"></span></figcaption>
+          </figure>
+        </div>
+
+        <!-- Performance -->
+        <figure class="figure figure--wide" id="fig-performance" style="margin-bottom:var(--sp-5)">
+          <div class="figure__head">
+            <h2 class="figure__title">How well each policy area is working for young people today</h2>
+            <p class="figure__sub">
+              Mean score out of ten, where 0 is “not working at all” and 10 is “working very well”.
+              The line marks the mid-point of the scale: everything to its left is judged, on average, to be failing.
+            </p>
+          </div>
+          <div class="figure__body" id="chart-performance"></div>
+          <figcaption class="figure__foot"><span id="performance-foot"></span></figcaption>
+        </figure>
+
+        <!-- Short vs long term -->
+        <figure class="figure figure--wide" id="fig-horizon" style="margin-bottom:var(--sp-5)">
+          <div class="figure__head">
+            <h2 class="figure__title">What matters now, and what matters for the long run</h2>
+            <p class="figure__sub">
+              Each policy area rated twice out of ten: urgency over the next twelve months, and importance
+              to a young person’s long-term future. The length of the line is the distance between the two.
+            </p>
+          </div>
+          <div class="figure__body">
+            <div class="legend" id="horizon-legend"></div>
+            <div id="chart-horizon"></div>
+          </div>
+          <figcaption class="figure__foot"><span id="horizon-foot"></span></figcaption>
+        </figure>
+
+        <!-- Quadrant + gap -->
+        <div class="grid grid--2" style="margin-bottom:var(--sp-5)">
+          <figure class="figure" id="fig-quadrant">
+            <div class="figure__head">
+              <h2 class="figure__title">Urgent now against important later</h2>
+              <p class="figure__sub">
+                Areas in the top right are both urgent and strategically important — the strongest case for
+                action in this parliament and at CHOGM.
+              </p>
+            </div>
+            <div class="figure__body" id="chart-quadrant"></div>
+            <figcaption class="figure__foot"><span id="quadrant-foot"></span></figcaption>
+          </figure>
+          <figure class="figure" id="fig-gap">
+            <div class="figure__head">
+              <h2 class="figure__title">The priority gap</h2>
+              <p class="figure__sub">
+                Long-term importance minus how well the area is working today. A large positive bar is an area
+                young people say matters enormously and is being delivered badly.
+              </p>
+            </div>
+            <div class="figure__body" id="chart-gap"></div>
+            <figcaption class="figure__foot"><span id="gap-foot"></span></figcaption>
+          </figure>
+        </div>
+
+        <!-- Who responded -->
+        <div class="grid grid--2" style="margin-bottom:var(--sp-5)">
+          <figure class="figure" id="fig-age">
+            <div class="figure__head">
+              <h2 class="figure__title">Who responded</h2>
+              <p class="figure__sub">Respondents by age band.</p>
+            </div>
+            <div class="figure__body" id="chart-age"></div>
+            <figcaption class="figure__foot"><span id="age-foot"></span></figcaption>
+          </figure>
+          <figure class="figure" id="fig-cw-region">
+            <div class="figure__head">
+              <h2 class="figure__title">Responses from across the Commonwealth</h2>
+              <p class="figure__sub">Respondents living outside the UK, by Commonwealth region.</p>
+            </div>
+            <div class="figure__body" id="chart-cw-region"></div>
+            <figcaption class="figure__foot"><span id="cw-region-foot"></span></figcaption>
+          </figure>
+        </div>
+
+        <!-- Verbatims -->
+        <section class="figure figure--wide" style="margin-bottom:var(--sp-5)">
+          <div class="figure__head">
+            <h2 class="figure__title">In their own words</h2>
+            <p class="figure__sub">
+              A sample of what young people said they would tell Heads of Government directly. Shown as
+              submitted, with identifying detail removed.
+            </p>
+          </div>
+          <div class="quotes" id="quotes"></div>
+          <div class="figure__foot">
+            <span id="quotes-foot"></span>
+            <button class="btn btn--quiet btn--sm no-print" type="button" id="btn-more-quotes">Show more</button>
+          </div>
+        </section>
+
+        <!-- Diagnostics -->
+        <details class="qgroup no-print" id="diagnostics">
+          <summary><span class="qtag">Diagnostics</span> How the spreadsheet columns were matched</summary>
+          <div class="qgroup__body" id="diagnostics-body"></div>
+        </details>
+      </div>
+
+      <div id="loading-state" class="empty-state">
+        <h3>Loading results…</h3>
+        <p>Reading the response data.</p>
+      </div>
+
+      <div id="error-state" class="empty-state" hidden>
+        <h3>The results could not be loaded</h3>
+        <p id="error-message" class="muted"></p>
+        <p><button class="btn btn--quiet" type="button" id="btn-retry">Try again</button></p>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__base">
+      <p>© <span data-year>2026</span> UK Young Ambassadors. Independent youth-led consultation.</p>
+      <p><a href="index.html">About</a> · <a href="consultation.html">Take part</a> · <a href="report.html">Report</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/taxonomy.js"></script>
+<script src="assets/js/csv.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/charts.js"></script>
+<script src="assets/js/map.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/results.js"></script>
+</body>
+</html>
