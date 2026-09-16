@@ -7,7 +7,7 @@
 <meta name="description" content="Live results from the UK Young Ambassadors' youth consultation: responses by nation and region, policy ratings, and the priority gap.">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/css/site.css?v=c3072086">
+<link rel="stylesheet" href="assets/css/site.css?v=448d8c2c">
 <link rel="stylesheet" href="assets/css/print.css?v=5e188de7">
 </head>
 <body data-page="results">
@@ -120,15 +120,14 @@
           <div class="figure__head">
             <h2 class="figure__title">Where responses have come from</h2>
             <p class="figure__sub">
-              Each tile is one UK nation or region, shaded by how many young people there have responded.
-              Tiles are equal in size so that London does not disappear and the Highlands do not dominate —
-              the colour, not the area, carries the number.
+              Every respondent who gave the first part of their postcode is placed on the map. Zoom and drag
+              to explore, and select a dot to see the town it covers. Larger dots mean more responses.
             </p>
           </div>
-          <div class="figure__body cartogram">
-            <div id="map-host"></div>
-            <div>
-              <div id="map-legend" style="margin-bottom:var(--sp-4)"></div>
+          <div class="figure__body">
+            <div class="livemap" id="map-host"></div>
+            <div class="livemap__aside">
+              <div id="map-legend"></div>
               <div id="map-ranking"></div>
             </div>
           </div>
@@ -295,8 +294,10 @@
 <script src="assets/js/csv.js?v=87dd8b0c"></script>
 <script src="assets/js/data.js?v=c2b97fd6"></script>
 <script src="assets/js/charts.js?v=ed3a5d80"></script>
+<script src="assets/js/postcodes.js?v=023fe1aa"></script>
+<script src="assets/js/livemap.js?v=16c08401"></script>
 <script src="assets/js/map.js?v=62fd1c6c"></script>
 <script src="assets/js/ui.js?v=98122276"></script>
-<script src="assets/js/results.js?v=59a151bf"></script>
+<script src="assets/js/results.js?v=ceba8c42"></script>
 </body>
 </html>

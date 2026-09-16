@@ -545,6 +545,51 @@ select, input[type="url"], input[type="text"], input[type="search"] {
 .tip__row { display: flex; gap: var(--sp-3); justify-content: space-between; }
 .tip__val { font-variant-numeric: tabular-nums; font-weight: 650; }
 
+/* Live map ------------------------------------------------------------------
+   The map sits in a box with an arrow pinned to each side. The arrows are the
+   only way to reach respondents in the Crown Dependencies and the Overseas
+   Territories, which are far outside the UK view.                            */
+.livemap {
+  position: relative; border-radius: var(--radius-lg); overflow: hidden;
+  border: 1px solid var(--rule); background: var(--surface-2);
+  min-height: 460px;
+}
+.livemap__canvas { position: absolute; inset: 0; }
+.livemap--fallback { min-height: 0; border: 0; background: none; overflow: visible; }
+
+.livemap__arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 500;
+  display: flex; align-items: center; gap: var(--sp-2);
+  cursor: pointer; padding: var(--sp-3) var(--sp-2);
+  border: 1px solid var(--rule); background: var(--surface); color: var(--ink);
+  box-shadow: var(--shadow);
+}
+.livemap__arrow--west { left: 0; border-radius: 0 var(--radius) var(--radius) 0; }
+.livemap__arrow--east { right: 0; border-radius: var(--radius) 0 0 var(--radius); flex-direction: row-reverse; }
+.livemap__arrow:hover, .livemap__arrow:focus-visible { background: var(--surface-2); }
+.livemap__arrow-icon { font-size: 1.5rem; line-height: 1; flex: none; }
+/* Collapsed to the icon, and revealed by growing the label rather than by
+   clipping the box — clipping left the tail of the text showing on the
+   right-hand arrow, where the label sits inboard of the icon. */
+.livemap__arrow-text {
+  width: 0; opacity: 0; overflow: hidden; flex: none;
+  font-size: var(--step--1); line-height: 1.3; text-align: left;
+  transition: width .25s ease, opacity .2s ease;
+}
+.livemap__arrow:hover .livemap__arrow-text,
+.livemap__arrow:focus-visible .livemap__arrow-text { width: 200px; opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .livemap__arrow-text { transition: none; } }
+/* No hover on a touch screen, so the labels stay open there. */
+@media (hover: none) {
+  .livemap__arrow-text { width: 104px; opacity: 1; font-size: .7rem; }
+}
+
+.livemap__aside { display: grid; gap: var(--sp-4); margin-top: var(--sp-4); }
+.livemap__count { color: var(--ink-2); }
+/* Leaflet's popups and controls, matched to the site's surfaces. */
+.leaflet-popup-content { font-family: var(--font); font-size: var(--step--1); margin: .6rem .8rem; }
+.leaflet-container { font-family: var(--font); background: var(--surface-2); }
+
 /* Cartogram */
 .cartogram { display: grid; gap: var(--sp-5); grid-template-columns: minmax(0, 460px) minmax(200px, 1fr); align-items: start; }
 @media (max-width: 720px) { .cartogram { grid-template-columns: 1fr; } }

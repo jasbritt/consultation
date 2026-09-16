@@ -124,12 +124,10 @@
   }
 
   function renderMap(s) {
+    const host = $('#map-host');
     const items = s.byRegion.items;
-    const max = Math.max(0, ...items.map(i => i.count));
-    M.choropleth($('#map-host'), { items, total: s.total, unitLabel: 'responses' });
-    M.choroplethLegend($('#map-legend'), { max, unitLabel: 'responses' });
 
-    /* A ranked list beside the map: the ordering a cartogram cannot show. */
+    /* The ranked list beside the map — the ordering a map cannot show. */
     const ranked = [...items].sort((a, b) => b.count - a.count).slice(0, 6);
     $('#map-ranking').innerHTML =
       `<h3 style="font-size:var(--step--1);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-muted)">Most responses</h3>
@@ -137,15 +135,41 @@
         ranked.map(r => `<li>${C.escapeHtml(r.label)} — <strong class="tnum">${num(r.count)}</strong></li>`).join('')
       }</ol>`;
 
-    $('#map-foot').textContent =
-      `${num(s.total - s.byRegion.missing)} of ${num(s.total)} responses are mapped to a ` +
-      `UK nation or region.${filterCaption()}`;
-
     C.withTable($('#fig-map'), {
       caption: 'Responses by UK nation and region',
       columns: [{ label: 'Nation or region' }, { label: 'Responses', numeric: true }, { label: 'Share', numeric: true }],
       rows: [...items].sort((a, b) => b.count - a.count)
         .map(r => [r.label, num(r.count), s.total ? pct(r.count / s.total) : '—'])
+    });
+
+    /* Drawn from postcodes, which are optional, so this count is not the total. */
+    const { places, unplaced } = window.LIVEMAP.locations(filteredRows());
+    const placed = places.reduce((a, p) => a + p.count, 0);
+
+    window.LIVEMAP.destroy(host);
+    host.innerHTML = '<p class="muted" style="padding:var(--sp-5)">Loading the map…</p>';
+
+    window.LIVEMAP.render(host, filteredRows(), {
+      /* No Leaflet or no tiles — school and government networks often block
+         both — so draw the tile cartogram in its place. */
+      onFallback: () => {
+        host.classList.add('livemap--fallback');
+        host.innerHTML = '';
+        M.choropleth(host, { items, total: s.total, unitLabel: 'responses' });
+        M.choroplethLegend($('#map-legend'), { max: Math.max(0, ...items.map(i => i.count)) });
+        $('#map-foot').textContent =
+          `The interactive map could not be loaded, so responses are shown by nation and region instead. ` +
+          `${num(s.total - s.byRegion.missing)} of ${num(s.total)} responses are mapped.${filterCaption()}`;
+      }
+    }).then(result => {
+      if (!result || !result.ok) return;
+      $('#map-legend').innerHTML =
+        `<p class="muted" style="font-size:var(--step--1);margin:0">
+           Dots are placed by postcode area, so they show the town a response came from, not an address.
+         </p>`;
+      $('#map-foot').textContent =
+        `${num(placed)} of ${num(s.total)} responses are placed by postcode across ${places.length} ` +
+        `postcode area${places.length === 1 ? '' : 's'}; ${num(unplaced)} did not give one.${filterCaption()}`;
     });
   }
 
