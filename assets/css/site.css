@@ -273,9 +273,8 @@ a:hover { color: var(--accent); }
 
 .hero__media-foot {
   display: flex; flex-wrap: wrap; gap: var(--sp-3) var(--sp-4); align-items: center;
-  justify-content: space-between; margin-top: var(--sp-6);
+  justify-content: flex-end; margin-top: var(--sp-6);
 }
-.hero__caption { margin: 0; font-size: var(--step--1); color: rgba(255,255,255,.72); }
 .hero__dots { display: flex; gap: var(--sp-2); margin-left: auto; }
 .hero__dot {
   width: 9px; height: 9px; padding: 0; border: 0; border-radius: 50%; cursor: pointer;
@@ -369,12 +368,15 @@ a:hover { color: var(--accent); }
   grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
   align-items: start;
 }
-.who__text h2 { margin-bottom: var(--sp-4); }
+.who__text h2, .who__text h3 { margin-bottom: var(--sp-4); }
 .who__text p { color: var(--ink-2); max-width: 54ch; margin-bottom: 0; }
-.who__people { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
+.who__people, .who__side { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
 @media (max-width: 860px) {
   .who { grid-template-columns: 1fr; }
-  .who__people { max-width: 420px; }
+  .who__people, .who__side { max-width: 420px; }
+}
+@media (max-width: 460px) {
+  .who__people, .who__side { grid-template-columns: 1fr; }
 }
 
 /* A member photograph sits where the initials avatar would. Square crop, so a
@@ -393,7 +395,8 @@ a:hover { color: var(--accent); }
   text-decoration: none; color: inherit; transition: border-color .15s, transform .15s;
 }
 .link-card:hover { border-color: var(--accent); color: inherit; transform: translateY(-2px); }
-.link-card__label { font-weight: 650; font-size: var(--step-1); letter-spacing: -.015em; }
+.link-card { padding: var(--sp-4); }
+.link-card__label { font-weight: 650; font-size: var(--step-0); letter-spacing: -.015em; }
 .link-card__blurb { font-size: var(--step--1); color: var(--ink-2); }
 .link-card__cue { font-size: var(--step--1); font-weight: 600; color: var(--accent-deep); margin-top: auto; }
 @media (prefers-reduced-motion: reduce) { .link-card:hover { transform: none; } }

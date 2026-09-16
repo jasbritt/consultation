@@ -154,7 +154,6 @@
 
     const items = CONFIG.team.gallery || [];
     const dots = hero.querySelector('[data-hero-dots]');
-    const caption = hero.querySelector('[data-hero-caption]');
 
     /* Fall back to the plain brand hero if there are no usable photographs. */
     const giveUp = () => {
@@ -179,15 +178,16 @@
       ).join('');
       const slides = [...media.querySelectorAll('.hero__slide')];
 
-      if (usable.length === 1) {
-        caption.textContent = usable[0].caption || '';
-        dots.remove();
-        return;
-      }
+      if (usable.length === 1) { dots.remove(); return; }
 
-      dots.innerHTML = usable.map((g, i) =>
-        `<button class="hero__dot" type="button" data-index="${i}"
-                 aria-label="Show photograph ${i + 1} of ${usable.length}"></button>`).join('');
+      /* No visible captions, so each dot carries the description instead —
+         otherwise the photographs would be entirely undescribed, the media
+         layer being marked decorative. */
+      dots.innerHTML = usable.map((g, i) => {
+        const describe = (g.caption || g.alt || '').replace(/"/g, '&quot;');
+        return `<button class="hero__dot" type="button" data-index="${i}"
+                 aria-label="Show photograph ${i + 1} of ${usable.length}${describe ? ': ' + describe : ''}"></button>`;
+      }).join('');
       const dotEls = [...dots.querySelectorAll('.hero__dot')];
 
       let current = 0;
@@ -195,7 +195,6 @@
         current = (i + usable.length) % usable.length;
         slides.forEach((s, n) => s.classList.toggle('is-active', n === current));
         dotEls.forEach((d, n) => d.setAttribute('aria-current', String(n === current)));
-        caption.textContent = usable[current].caption || '';
       };
       show(0);
 
