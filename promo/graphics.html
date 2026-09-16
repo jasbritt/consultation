@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>UKYA consultation — promotional graphics</title>
+<!--
+  Two artboards at native Instagram sizes: 1080x1920 for a story, 1080x1080 for
+  a square post. Rendered to PNG by scripts/make-graphics.js.
+
+  Everything is editable here — change the text, swap the photograph for any
+  other file in assets/img/work/, then re-run the script.
+-->
+<style>
+  :root {
+    --pink: #d0006f;
+    --pink-deep: #a80059;
+    --ink: #0a2540;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #222; padding: 40px; display: flex; gap: 40px; align-items: flex-start;
+    font-family: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  }
+  .board { position: relative; overflow: hidden; background: #0a2540; flex: none; }
+  #story  { width: 1080px; height: 1920px; }
+  #square { width: 1080px; height: 1080px; }
+
+  . board__photo-placeholder {}
+  /* The photograph gets its own band rather than filling the whole artboard.
+     Filling it meant the image was scaled to the full height, so there was no
+     vertical crop to control — and the people ended up behind the panel with
+     only the ceiling showing. A shorter band restores control of the framing
+     through object-position. */
+  .board__photo {
+    position: absolute; top: 0; left: 0; width: 100%; object-fit: cover; display: block;
+  }
+  .board__scrim {
+    position: absolute; top: 0; left: 0; right: 0;
+    background: linear-gradient(to bottom, rgba(10,37,64,.30) 0%, rgba(10,37,64,.10) 55%, rgba(10,37,64,.45) 100%);
+  }
+
+  /* The magenta panel, with a cut corner echoing the CHOGM banner. */
+  .panel {
+    position: absolute; background: var(--pink); color: #fff;
+    clip-path: polygon(0 0, calc(100% - 64px) 0, 100% 64px, 100% 100%, 0 100%);
+  }
+  .eyebrow {
+    font-size: 26px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+    opacity: .92; margin-bottom: 26px;
+  }
+  .headline { font-weight: 800; line-height: 1.04; letter-spacing: -.02em; }
+  .sub { line-height: 1.34; opacity: .95; }
+  .rule { height: 4px; background: rgba(255,255,255,.45); border-radius: 2px; }
+
+  .cta {
+    display: inline-flex; align-items: baseline; gap: 16px;
+    background: #fff; color: var(--pink-deep); font-weight: 800;
+    border-radius: 14px;
+  }
+  .cta small { font-weight: 700; letter-spacing: .12em; text-transform: uppercase; opacity: .72; }
+
+  .logo-strip {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    background: #fff; display: flex; align-items: center; gap: 28px;
+  }
+  .logo-strip img { display: block; }
+  .logo-strip .who { color: var(--ink); font-weight: 700; line-height: 1.25; }
+  .logo-strip .closes { margin-left: auto; color: #52514e; font-weight: 600; text-align: right; line-height: 1.3; }
+
+  /* ---- story ------------------------------------------------------------ */
+  #story .board__photo, #story .board__scrim { height: 820px; }
+  #story .panel { left: 0; right: 0; bottom: 210px; padding: 72px 80px 80px; }
+  #story .headline { font-size: 104px; }
+  #story .sub { font-size: 38px; margin-top: 34px; }
+  #story .rule { width: 132px; margin: 44px 0 40px; }
+  #story .cta { font-size: 46px; padding: 26px 40px; }
+  #story .cta small { font-size: 24px; }
+  #story .logo-strip { height: 210px; padding: 0 80px; }
+  #story .logo-strip img { height: 132px; }
+  #story .logo-strip .who { font-size: 30px; }
+  #story .logo-strip .closes { font-size: 28px; }
+
+  /* ---- square ----------------------------------------------------------- */
+  #square .board__photo, #square .board__scrim { height: 440px; }
+  #square .panel { left: 0; right: 0; bottom: 156px; padding: 54px 64px 58px; }
+  #square .headline { font-size: 76px; }
+  #square .sub { font-size: 30px; margin-top: 24px; }
+  #square .rule { width: 104px; margin: 32px 0 30px; }
+  #square .cta { font-size: 38px; padding: 20px 32px; }
+  #square .cta small { font-size: 20px; }
+  #square .logo-strip { height: 156px; padding: 0 64px; }
+  #square .logo-strip img { height: 100px; }
+  #square .logo-strip .who { font-size: 24px; }
+  #square .logo-strip .closes { font-size: 22px; }
+</style>
+</head>
+<body>
+
+<div class="board" id="story">
+  <img class="board__photo" src="../assets/img/work/commonwealth-youth-forum-samoa.jpg" alt="" style="object-position:center 72%">
+  <div class="board__scrim"></div>
+  <div class="panel">
+    <div class="eyebrow">UK Young Ambassadors</div>
+    <div class="headline">Young people&rsquo;s priorities for the Commonwealth</div>
+    <div class="rule"></div>
+    <div class="sub">
+      Tell us what should change for young people. Your answers go to UK government
+      and to the Commonwealth Youth Forum in Antigua and Barbuda.
+    </div>
+    <div class="sub" style="margin-top:22px;font-weight:700">Open to anyone aged 13&ndash;25 living in the UK.</div>
+    <div style="margin-top:46px">
+      <span class="cta"><small>Have your say</small> bit.ly/46wjJPB</span>
+    </div>
+  </div>
+  <div class="logo-strip">
+    <img src="../assets/img/logos/ukya-logo.png" alt="UK Young Ambassadors">
+    <div class="who">UK Young Ambassadors<br>to the Commonwealth</div>
+    <div class="closes">Consultation closes<br>1st November 2026</div>
+  </div>
+</div>
+
+<div class="board" id="square">
+  <img class="board__photo" src="../assets/img/work/chogm-reception.jpg" alt="" style="object-position:center 42%">
+  <div class="board__scrim"></div>
+  <div class="panel">
+    <div class="eyebrow">UK Young Ambassadors</div>
+    <div class="headline">Young people&rsquo;s priorities for the Commonwealth</div>
+    <div class="rule"></div>
+    <div class="sub">Tell us what should change. Open to anyone aged 13&ndash;25 living in the UK.</div>
+    <div style="margin-top:34px">
+      <span class="cta"><small>Have your say</small> bit.ly/46wjJPB</span>
+    </div>
+  </div>
+  <div class="logo-strip">
+    <img src="../assets/img/logos/ukya-logo.png" alt="UK Young Ambassadors">
+    <div class="who">UK Young Ambassadors<br>to the Commonwealth</div>
+    <div class="closes">Closes<br>1st November 2026</div>
+  </div>
+</div>
+
+</body>
+</html>
