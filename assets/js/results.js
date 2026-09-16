@@ -11,6 +11,13 @@
   const $ = sel => document.querySelector(sel);
   const state = { dataset: null, filters: { region: '', age: '' }, quoteLimit: 6 };
   const pct = v => `${Math.round(v * 100)}%`;
+  /* "2026-09-16 12:13:36" in the reader's own time, rather than an ISO string
+     with a T and a Z in it, which a spreadsheet will not treat as a date. */
+  const localTimestamp = (d = new Date()) => {
+    const p = n => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ` +
+           `${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+  };
   const num = v => Number(v || 0).toLocaleString('en-GB');
 
 
@@ -409,8 +416,8 @@
   /* ---------- downloads ---------------------------------------------------- */
   function downloadAggregates() {
     const s = state.summary;
-    const rows = [['UK Young Ambassadors — CHOGM youth consultation: aggregate results'],
-                  ['Generated', new Date().toISOString()],
+    const rows = [['UK Young Ambassadors CHOGM Youth Consultation: aggregate results'],
+                  ['Generated', localTimestamp()],
                   ['Responses in this view', s.total],
                   ['Filters', filterCaption().trim() || 'none'], []];
 
@@ -427,16 +434,38 @@
     s.reintroduce.items.forEach(i => rows.push([i.label, i.count, `${Math.round(i.share * 100)}%`]));
     rows.push([]);
 
-    rows.push(['Biggest problem — UK'], ['Policy area', 'Responses']);
+    rows.push(['Biggest problem - UK'], ['Policy area', 'Responses']);
     s.ukProblem.items.forEach(i => rows.push([i.label, i.count]));
     rows.push([]);
-    rows.push(['Biggest problem — Commonwealth'], ['Policy area', 'Responses']);
+    rows.push(['Biggest problem - Commonwealth'], ['Policy area', 'Responses']);
     s.cwProblem.items.forEach(i => rows.push([i.label, i.count]));
 
-    const blob = new Blob([window.toCsv(rows)], { type: 'text/csv;charset=utf-8' });
+    /* A byte order mark. Excel — on macOS especially — reads a .csv as the
+       system's legacy encoding unless the file announces itself, which turns
+       every non-ASCII character into mojibake ("—" became "‚Äî"). The BOM makes
+       it decode as UTF-8, which matters for respondents' own words as much as
+       for our headings: en dashes, curly apostrophes and accented names all
+       arrive in the free-text answers. */
+    /* Typographic characters belong on the page, not in an interchange file:
+       a spreadsheet may be opened anywhere, by anything. Fold dashes, curly
+       quotes and ellipses down to their ASCII equivalents on the way out. */
+    const plain = rows.map(row => row.map(cell =>
+      typeof cell === 'string'
+        ? cell.replace(/[\u2012-\u2015]/g, '-')     // figure, en, em, horizontal bar
+              .replace(/[\u2018\u2019]/g, "'")
+              .replace(/[\u201c\u201d]/g, '"')
+              .replace(/\u2026/g, '...')
+              .replace(/\u00a0/g, ' ')
+        : cell));
+
+    /* A byte order mark as well, for anything non-ASCII that still gets
+       through. Excel — on macOS especially — reads a .csv as the system's
+       legacy encoding unless the file announces itself, which is what turned
+       an em dash into "‚Äî". */
+    const blob = new Blob(['\ufeff', window.toCsv(plain)], { type: 'text/csv;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `chogm-consultation-aggregates-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.download = `chogm-consultation-aggregates-${localTimestamp().slice(0, 10)}.csv`;
     a.click();
     URL.revokeObjectURL(a.href);
   }
