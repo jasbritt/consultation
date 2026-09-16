@@ -122,34 +122,30 @@ const CONFIG = {
     gallery: [
       {
         src: 'assets/img/work/commonwealth-youth-forum-samoa.jpg',
-        alt: 'Delegates in front of the Commonwealth Youth Forum banner in Apia, Samoa.',
+        alt: 'Six delegates in front of the Commonwealth Youth Forum banner in Apia, Samoa.',
         caption: 'Commonwealth Youth Forum, Apia, Samoa, October 2024',
         focus: 'center 30%'
       },
       {
-        src: 'assets/img/work/youth-forum-opening-samoa.jpg',
-        alt: 'Delegates carried on a decorated traditional canoe across the water at the opening of the Commonwealth Youth Forum.',
-        caption: 'Arriving at the opening of the Commonwealth Youth Forum, Samoa'
-      },
-      {
         src: 'assets/img/work/chogm-reception.jpg',
-        alt: 'Commonwealth youth delegates gathered in front of a CHOGM backdrop at a reception.',
+        alt: 'A large group of Commonwealth youth delegates in front of a CHOGM backdrop at a reception.',
         caption: 'Commonwealth youth delegates at a CHOGM reception'
       },
       {
-        src: 'assets/img/work/commonwealth-secretary-general.jpg',
+        src: 'assets/img/work/commonwealth-high-level-meeting.jpg',
         alt: 'A panel at a Commonwealth high-level meeting, with a Commonwealth Secretary-General nameplate on the desk.',
         caption: 'A Commonwealth high-level meeting'
       },
       {
-        src: 'assets/img/work/commonwealth-meeting-speaking.jpg',
-        alt: 'A delegate speaking into a microphone in front of a row of Commonwealth member state flags.',
+        src: 'assets/img/work/speaking-at-commonwealth-meeting.jpg',
+        alt: 'A delegate speaking into a microphone at a table, with Commonwealth member state flags behind.',
         caption: 'Speaking on behalf of UK young people at a Commonwealth meeting'
       },
       {
         src: 'assets/img/work/for-youth-rights.jpg',
         alt: 'Three young people holding an orange flag reading "for youth rights".',
-        caption: 'Campaigning for youth rights'
+        caption: 'Campaigning for youth rights',
+        focus: 'center 35%'
       },
       {
         src: 'assets/img/work/cop27-sharm-el-sheikh.jpg',
@@ -157,6 +153,15 @@ const CONFIG = {
         caption: 'COP27, Sharm El-Sheikh, Egypt, 2022',
         focus: 'center 35%'
       }
+      /* The canoe procession at the opening of the Commonwealth Youth Forum has
+         not been uploaded. To add it, put the file at
+         assets/img/work/youth-forum-opening-samoa.jpg and uncomment this:
+      ,{
+        src: 'assets/img/work/youth-forum-opening-samoa.jpg',
+        alt: 'Delegates carried on a decorated traditional canoe across the water at the opening of the Commonwealth Youth Forum.',
+        caption: 'Arriving at the opening of the Commonwealth Youth Forum, Samoa'
+      }
+      */
     ]
   },
 
