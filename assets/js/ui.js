@@ -125,7 +125,7 @@
       </div>`).join('');
 
     const linkHost = document.querySelector('[data-team-links]');
-    if (linkHost && CONFIG.team.links) {
+    if (linkHost && Array.isArray(CONFIG.team.links)) {
       linkHost.innerHTML = CONFIG.team.links.map(l => `
         <a class="card link-card" href="${l.url}" rel="noopener" target="_blank">
           <span class="link-card__label">${l.label}</span>
@@ -154,6 +154,11 @@
 
     const items = CONFIG.team.gallery || [];
     const dots = hero.querySelector('[data-hero-dots]');
+    /* Never assume a control is present: markup and script are cached
+       separately, so one can be newer than the other. A missing element must
+       degrade, not throw — a thrown error here takes the whole carousel with
+       it, leaving no photographs and dead dots. */
+    if (!dots) return;
 
     /* Fall back to the plain brand hero if there are no usable photographs. */
     const giveUp = () => {
@@ -221,13 +226,14 @@
   }
 
   /* ---------- go ----------------------------------------------------------- */
+  /* Each piece of chrome is independent, so run them independently: a fault in
+     one must not leave the rest of the page unrendered. */
   function init() {
-    initNav();
-    fillConfigText();
-    renderPartners();
-    renderLogo();
-    renderTeam();
-    renderHeroCarousel();
+    [initNav, fillConfigText, renderPartners, renderLogo, renderTeam, renderHeroCarousel]
+      .forEach(step => {
+        try { step(); }
+        catch (err) { console.error(`Site chrome step "${step.name}" failed`, err); }
+      });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
