@@ -52,7 +52,6 @@ compare('Policy areas', gsArray('POLICY_AREAS'), T.POLICY_AREAS.map(a => a.label
 compare('Bring-back options', gsArray('REINTRODUCE_OPTIONS'), T.REINTRODUCE_OPTIONS.map(o => o.label));
 compare('UK regions', gsArray('UK_REGIONS'), T.UK_REGIONS.map(r => r.label));
 compare('Age bands', gsArray('AGE_BANDS'), T.AGE_BANDS.map(b => b.label));
-compare('Commonwealth countries', gsArray('COMMONWEALTH_COUNTRIES'), T.COMMONWEALTH_COUNTRIES.map(c => c.name));
 
 /* ---- the headers the form will actually produce -------------------------- */
 const batteryTitles = (gs.match(/title: '(?:[^'\\]|\\.)*'/g) || [])
@@ -99,7 +98,7 @@ const setTitles = (gs.match(/\.setTitle\('(?:[^'\\]|\\.)*'\)/g) || [])
 
 console.log('\nOther questions map to a known field');
 const map = D.buildColumnMap(['Timestamp'].concat(setTitles));
-['timestamp', 'age', 'ukRegion', 'country', 'postcodeArea', 'organisation', 'reintroduce',
+['timestamp', 'age', 'ukRegion', 'postcodeArea', 'organisation', 'reintroduce',
  'reintroduceText', 'ukProblem', 'ukProblemWhy', 'cwProblem', 'cwProblemWhy', 'cwPriorities',
  'chogmMessage', 'gender', 'ethnicity', 'disability', 'situation', 'careExperience', 'consent']
   .forEach(key => check(Boolean(map.fields[key]), `"${key}" is matched by a question in the form`));

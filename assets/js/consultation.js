@@ -86,8 +86,7 @@
       'Nothing here identifies you. Every question can be skipped, and each has a “prefer not to say” option.',
       list([
         'How old are you? ' + T.AGE_BANDS.map(b => esc(b.label)).join(' · '),
-        'Which nation or region of the UK do you live in? ' + T.UK_REGIONS.map(r => esc(r.label)).join(' · ') + ' · I live outside the UK',
-        'If you live outside the UK, which country do you live in?',
+        'Which nation or region of the UK do you live in? ' + T.UK_REGIONS.map(r => esc(r.label)).join(' · '),
         'The first part of your postcode only, for example <code>SW1A</code> (optional — used to map coverage, never to identify you)',
         'Are you currently involved with a youth council, youth group or youth organisation?',
         'Optional equalities questions: gender, ethnicity, disability or long-term health condition, care experience, and what you are currently doing (education, employment, training, or none of these)'

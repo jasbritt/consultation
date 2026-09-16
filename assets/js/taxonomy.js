@@ -57,7 +57,10 @@ const REINTRODUCE_OPTIONS = [
 ];
 
 /* -----------------------------------------------------------------------------
-   UK nations and regions (ITL1 / former NUTS1). `tile` is the column/row slot in
+   UK nations and regions (ITL1 / former NUTS1). This consultation gathers the
+   views of young people living in the UK only, so these are the only locations
+   offered — the Commonwealth-facing questions ask UK young people what they
+   think about the Commonwealth, not where they live. `tile` is the column/row slot in
    the cartogram on the results page — see map.js. `short` is the tile label.
 -------------------------------------------------------------------------------*/
 const UK_REGIONS = [
@@ -74,47 +77,6 @@ const UK_REGIONS = [
   { id: 'south_east', label: 'South East England',        short: 'SE',  tile: { col: 3, row: 4 } },
   { id: 'london',     label: 'London',                    short: 'LDN', tile: { col: 4, row: 4 } }
 ];
-
-/* Commonwealth regions, used for respondents outside the UK and for the
-   Commonwealth-facing questions. Ordering follows Commonwealth Secretariat usage. */
-const COMMONWEALTH_REGIONS = [
-  { id: 'africa',            label: 'Africa' },
-  { id: 'asia',              label: 'Asia' },
-  { id: 'caribbean_america', label: 'Caribbean and the Americas' },
-  { id: 'europe',            label: 'Europe' },
-  { id: 'pacific',           label: 'Pacific' }
-];
-
-/* -----------------------------------------------------------------------------
-   Commonwealth member states, grouped by the Secretariat's five regions. Used
-   for the country dropdown in the form and to place overseas respondents on the
-   Commonwealth breakdown. Membership as at 2026 — check against
-   thecommonwealth.org before publishing, since membership does change.
--------------------------------------------------------------------------------*/
-const COMMONWEALTH_COUNTRIES = [
-  ['Botswana','africa'], ['Cameroon','africa'], ['Eswatini','africa'], ['Gabon','africa'],
-  ['The Gambia','africa'], ['Ghana','africa'], ['Kenya','africa'], ['Lesotho','africa'],
-  ['Malawi','africa'], ['Mauritius','africa'], ['Mozambique','africa'], ['Namibia','africa'],
-  ['Nigeria','africa'], ['Rwanda','africa'], ['Seychelles','africa'], ['Sierra Leone','africa'],
-  ['South Africa','africa'], ['Togo','africa'], ['Uganda','africa'],
-  ['United Republic of Tanzania','africa'], ['Zambia','africa'],
-
-  ['Bangladesh','asia'], ['Brunei Darussalam','asia'], ['India','asia'], ['Malaysia','asia'],
-  ['Maldives','asia'], ['Pakistan','asia'], ['Singapore','asia'], ['Sri Lanka','asia'],
-
-  ['Antigua and Barbuda','caribbean_america'], ['The Bahamas','caribbean_america'],
-  ['Barbados','caribbean_america'], ['Belize','caribbean_america'], ['Canada','caribbean_america'],
-  ['Dominica','caribbean_america'], ['Grenada','caribbean_america'], ['Guyana','caribbean_america'],
-  ['Jamaica','caribbean_america'], ['Saint Kitts and Nevis','caribbean_america'],
-  ['Saint Lucia','caribbean_america'], ['Saint Vincent and the Grenadines','caribbean_america'],
-  ['Trinidad and Tobago','caribbean_america'],
-
-  ['Cyprus','europe'], ['Malta','europe'], ['United Kingdom','europe'],
-
-  ['Australia','pacific'], ['Fiji','pacific'], ['Kiribati','pacific'], ['Nauru','pacific'],
-  ['New Zealand','pacific'], ['Papua New Guinea','pacific'], ['Samoa','pacific'],
-  ['Solomon Islands','pacific'], ['Tonga','pacific'], ['Tuvalu','pacific'], ['Vanuatu','pacific']
-].map(([name, region]) => ({ name, region }));
 
 const AGE_BANDS = [
   { id: 'u13',   label: 'Under 13' },
@@ -162,8 +124,7 @@ const RATING_BATTERIES = [
 
 /* Exported for both browser (<script src>) and Node (scripts/*.js). */
 const TAXONOMY = {
-  POLICY_AREAS, REINTRODUCE_OPTIONS, UK_REGIONS, COMMONWEALTH_REGIONS,
-  COMMONWEALTH_COUNTRIES, AGE_BANDS, RATING_BATTERIES
+  POLICY_AREAS, REINTRODUCE_OPTIONS, UK_REGIONS, AGE_BANDS, RATING_BATTERIES
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = TAXONOMY;
 if (typeof window !== 'undefined') window.TAXONOMY = TAXONOMY;

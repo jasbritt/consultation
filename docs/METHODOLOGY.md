@@ -153,9 +153,12 @@ populations. Any regional breakdown with a small base should not be read as a
 finding about that area. The site's region filter shows the base for exactly this
 reason.
 
-**Commonwealth coverage is thin relative to the UK.** Responses from outside the
-UK should be treated as indicative and as an argument for partner-led
-consultation in member states, not as a Commonwealth-wide result.
+**The Commonwealth findings are UK young people's views, not the Commonwealth's.**
+The consultation is open to young people living in the UK only. Where it asks
+about the Commonwealth it is asking what UK young people think should change
+across it — a mandate for the UK delegation to carry. It is not, and must never
+be presented as, a survey of young people across Commonwealth member states.
+Establishing that would need partner-led consultation in each country.
 
 **Order effects.** The three rating batteries are presented in the same order to
 every respondent, so later batteries may show mild fatigue. If the consultation
@@ -172,8 +175,9 @@ weighted by frequency and are not a substitute for the coded answers.
 - Add a deliberate booster sample of young people not reached through youth
   organisations — through schools, colleges, JobCentres and care leaver services —
   and report the two groups separately.
-- Partner with youth councils in named Commonwealth member states before
-  fieldwork opens, rather than relying on open promotion, so the Commonwealth
-  findings carry the same weight as the UK ones.
+- Partner with youth councils in named Commonwealth member states to run a
+  parallel consultation on the same questions, so the Commonwealth findings can
+  be spoken to by young people in those countries rather than only by UK
+  respondents.
 - Ask one repeated question from a previous BYC or UK Youth Parliament exercise
   verbatim, to give an anchor point against earlier evidence.

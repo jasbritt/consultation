@@ -4,7 +4,7 @@
 > Edit the taxonomy, not this file. The Google Form is generated from the same
 > content by `form/create-form.gs`.
 
-Estimated completion time: about nine minutes. Required questions are marked.
+Open to anyone aged 13 to 25 living in the United Kingdom. Estimated completion time: about nine minutes. Required questions are marked.
 
 ## Section 1 — About you
 
@@ -31,11 +31,6 @@ Estimated completion time: about nine minutes. Required questions are marked.
 - South West England
 - South East England
 - London
-- I live outside the UK
-
-**If you live outside the UK, which country do you live in?**
-
-A dropdown of the 56 Commonwealth member states, plus "another country not listed".
 
 **The first part of your postcode only, for example SW1A** *(optional)*
 

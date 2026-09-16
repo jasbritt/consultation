@@ -34,7 +34,7 @@ check(dataset.map.unmatched.length === 0,
 
 console.log('\nNormalisation');
 check(s.byRegion.items.reduce((a, b) => a + b.count, 0) > 0, 'responses mapped to UK regions');
-check(s.byCwRegion.items.reduce((a, b) => a + b.count, 0) > 0, 'responses mapped to Commonwealth regions');
+check(s.byRegion.missing === 0, `every response has a recognised UK nation or region (${s.byRegion.missing} unmatched)`);
 check(s.byAge.missing === 0, `every response has a recognised age band (${s.byAge.missing} unmatched)`);
 check(s.reintroduce.answered > 0, `"bring back" answers decoded (${s.reintroduce.answered} respondents)`);
 check(s.ukProblem.missing === 0, `every UK problem answer matched a policy area (${s.ukProblem.missing} unmatched)`);
@@ -44,7 +44,6 @@ check(s.gaps.every(g => g.gap !== null), 'a priority gap was computed for every 
 console.log('\nResponses by nation and region');
 [...s.byRegion.items].sort((a, b) => b.count - a.count)
   .forEach(r => console.log(`  ${r.label.padEnd(30)} ${String(r.count).padStart(4)}`));
-console.log(`  ${'Outside the UK'.padEnd(30)} ${String(s.byCwRegion.items.reduce((a, b) => a + b.count, 0)).padStart(4)}`);
 
 console.log('\nPolicy areas — mean scores out of ten');
 console.log(`  ${'Area'.padEnd(34)} works  long  short   gap`);

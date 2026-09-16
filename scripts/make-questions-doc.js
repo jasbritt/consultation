@@ -17,7 +17,7 @@ L.push('> Generated from `assets/js/taxonomy.js` by `node scripts/make-questions
 L.push('> Edit the taxonomy, not this file. The Google Form is generated from the same');
 L.push('> content by `form/create-form.gs`.');
 L.push('');
-L.push('Estimated completion time: about nine minutes. Required questions are marked.');
+L.push('Open to anyone aged 13 to 25 living in the United Kingdom. Estimated completion time: about nine minutes. Required questions are marked.');
 L.push('');
 
 L.push('## Section 1 — About you');
@@ -28,11 +28,7 @@ bullet(T.AGE_BANDS.map(b => b.label));
 L.push('');
 L.push('**Which nation or region of the UK do you live in?** *(required)*');
 L.push('');
-bullet(T.UK_REGIONS.map(r => r.label).concat(['I live outside the UK']));
-L.push('');
-L.push('**If you live outside the UK, which country do you live in?**');
-L.push('');
-L.push(`A dropdown of the ${T.COMMONWEALTH_COUNTRIES.length} Commonwealth member states, plus "another country not listed".`);
+bullet(T.UK_REGIONS.map(r => r.label));
 L.push('');
 L.push('**The first part of your postcode only, for example SW1A** *(optional)*');
 L.push('');

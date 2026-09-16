@@ -42,7 +42,7 @@ var FORM_DESCRIPTION =
   'Run by the UK Young Ambassadors. Your answers go to UK government departments and into the ' +
   'delegation’s position at the Commonwealth Heads of Government Meeting.\n\n' +
   'It takes about 9 minutes. You do not have to give your name or email address, and you can skip ' +
-  'any question. Open to anyone aged 13 to 25 living in the UK or in a Commonwealth country.';
+  'any question. Open to anyone aged 13 to 25 living in the United Kingdom.';
 
 /* ---------------------------------------------------------------------------
    Content — mirrors assets/js/taxonomy.js
@@ -87,18 +87,6 @@ var UK_REGIONS = [
 ];
 
 var AGE_BANDS = ['Under 13', '13 to 15', '16 to 18', '19 to 21', '22 to 25', 'Over 25'];
-
-var COMMONWEALTH_COUNTRIES = [
-  'Antigua and Barbuda', 'Australia', 'Bangladesh', 'Barbados', 'Belize', 'Botswana',
-  'Brunei Darussalam', 'Cameroon', 'Canada', 'Cyprus', 'Dominica', 'Eswatini', 'Fiji',
-  'Gabon', 'Ghana', 'Grenada', 'Guyana', 'India', 'Jamaica', 'Kenya', 'Kiribati',
-  'Lesotho', 'Malawi', 'Malaysia', 'Maldives', 'Malta', 'Mauritius', 'Mozambique',
-  'Namibia', 'Nauru', 'New Zealand', 'Nigeria', 'Pakistan', 'Papua New Guinea',
-  'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines',
-  'Samoa', 'Seychelles', 'Sierra Leone', 'Singapore', 'Solomon Islands', 'South Africa',
-  'Sri Lanka', 'The Bahamas', 'The Gambia', 'Togo', 'Tonga', 'Trinidad and Tobago',
-  'Tuvalu', 'Uganda', 'United Kingdom', 'United Republic of Tanzania', 'Vanuatu', 'Zambia'
-];
 
 /* The three rating batteries. `title` becomes the spreadsheet column prefix, so
    it must stay in step with matchTokens in assets/js/taxonomy.js. */
@@ -192,15 +180,9 @@ function addAboutYou_(form) {
 
   form.addMultipleChoiceItem()
       .setTitle('Which nation or region of the UK do you live in?')
-      .setChoiceValues(UK_REGIONS.concat(['I live outside the UK']))
+      .setChoiceValues(UK_REGIONS)
       .setHelpText('If you are not sure which region you are in, pick the nearest large city’s region.')
       .setRequired(true);
-
-  form.addListItem()
-      .setTitle('If you live outside the UK, which country do you live in?')
-      .setChoiceValues(COMMONWEALTH_COUNTRIES.concat(['Another country not listed']))
-      .setHelpText('Leave blank if you live in the UK.')
-      .setRequired(false);
 
   form.addTextItem()
       .setTitle('The first part of your postcode only, for example SW1A (optional)')

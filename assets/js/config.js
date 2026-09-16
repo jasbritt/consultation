@@ -33,8 +33,8 @@ const CONFIG = {
      Until embedUrl is set the consultation page shows the setup instructions
      instead of an empty grey box.                                            */
   form: {
-    embedUrl: '',                 // e.g. https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true
-    shareUrl: '',                 // e.g. https://forms.gle/xxxxxxxx
+    embedUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeTXtwwP8Lj9PFck9WmL6cEEaFIsIq9UnVvBSBcL6u3zfEAnQ/viewform?embedded=true',
+    shareUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeTXtwwP8Lj9PFck9WmL6cEEaFIsIq9UnVvBSBcL6u3zfEAnQ/viewform',
     estimatedMinutes: 9
   },
 
@@ -50,6 +50,13 @@ const CONFIG = {
        3. this value,
        4. the bundled sample data (clearly badged as sample).                 */
   data: {
+    /* NOT YET SET. The responses spreadsheet is
+       https://docs.google.com/spreadsheets/d/1HIJv8bwKLfePb4qfl-EsIq01BQXj1FqIUYNsWo33oOQ/edit
+       but that is its private edit link, which a website cannot read. In that
+       spreadsheet choose File › Share › Publish to web, pick the responses
+       sheet and "Comma-separated values (.csv)", press Publish, and paste the
+       resulting .../pub?output=csv link here. Until then the results page
+       shows the bundled sample data, clearly badged as such. */
     publishedCsvUrl: '',
     sampleCsvUrl: 'assets/data/sample-responses.csv',
     /* Google's published-CSV endpoint sends permissive CORS headers, so the

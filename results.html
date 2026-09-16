@@ -224,24 +224,14 @@
         </div>
 
         <!-- Who responded -->
-        <div class="grid grid--2" style="margin-bottom:var(--sp-5)">
-          <figure class="figure" id="fig-age">
-            <div class="figure__head">
-              <h2 class="figure__title">Who responded</h2>
-              <p class="figure__sub">Respondents by age band.</p>
-            </div>
-            <div class="figure__body" id="chart-age"></div>
-            <figcaption class="figure__foot"><span id="age-foot"></span></figcaption>
-          </figure>
-          <figure class="figure" id="fig-cw-region">
-            <div class="figure__head">
-              <h2 class="figure__title">Responses from across the Commonwealth</h2>
-              <p class="figure__sub">Respondents living outside the UK, by Commonwealth region.</p>
-            </div>
-            <div class="figure__body" id="chart-cw-region"></div>
-            <figcaption class="figure__foot"><span id="cw-region-foot"></span></figcaption>
-          </figure>
-        </div>
+        <figure class="figure figure--wide" id="fig-age" style="margin-bottom:var(--sp-5)">
+          <div class="figure__head">
+            <h2 class="figure__title">Who responded</h2>
+            <p class="figure__sub">Respondents by age band.</p>
+          </div>
+          <div class="figure__body" id="chart-age"></div>
+          <figcaption class="figure__foot"><span id="age-foot"></span></figcaption>
+        </figure>
 
         <!-- Verbatims -->
         <section class="figure figure--wide" style="margin-bottom:var(--sp-5)">
@@ -271,10 +261,26 @@
         <p>Reading the response data.</p>
       </div>
 
-      <div id="error-state" class="empty-state" hidden>
-        <h3>The results could not be loaded</h3>
-        <p id="error-message" class="muted"></p>
-        <p><button class="btn btn--quiet" type="button" id="btn-retry">Try again</button></p>
+      <div id="error-state" hidden>
+        <div class="empty-state" style="padding-bottom:var(--sp-4)">
+          <h3>The results could not be loaded</h3>
+          <p id="error-message" class="muted"></p>
+          <p><button class="btn btn--quiet" type="button" id="btn-retry">Try again</button></p>
+        </div>
+        <figure class="figure figure--wide">
+          <div class="figure__head">
+            <h2 class="figure__title">Where responses are mapped</h2>
+            <p class="figure__sub">
+              Every response is placed on one of the twelve UK nations and regions below. This is the map
+              the results will fill in — each tile darkens as young people from that part of the country
+              take part.
+            </p>
+          </div>
+          <div class="figure__body cartogram">
+            <div id="error-map"></div>
+            <div id="error-map-note"></div>
+          </div>
+        </figure>
       </div>
 
     </div>

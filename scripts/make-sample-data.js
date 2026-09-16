@@ -46,14 +46,6 @@ const REGION_WEIGHTS = [
   ['wales', 4.7], ['north_east', 3.8], ['ni', 2.8]
 ];
 
-const OVERSEAS = [
-  ['Nigeria', 'africa'], ['Kenya', 'africa'], ['Ghana', 'africa'], ['South Africa', 'africa'],
-  ['India', 'asia'], ['Malaysia', 'asia'], ['Bangladesh', 'asia'], ['Pakistan', 'asia'],
-  ['Jamaica', 'caribbean_america'], ['Trinidad and Tobago', 'caribbean_america'], ['Canada', 'caribbean_america'],
-  ['Australia', 'pacific'], ['New Zealand', 'pacific'], ['Fiji', 'pacific'], ['Samoa', 'pacific'],
-  ['Malta', 'europe'], ['Cyprus', 'europe']
-];
-
 /* Population means for each battery. The interesting shape is deliberate and
    is what the quadrant and gap charts are built to reveal:
      - delivery is rated worst where importance is rated highest
@@ -156,7 +148,6 @@ const H = {
   timestamp: 'Timestamp',
   age: 'What is your age?',
   region: 'Which nation or region of the UK do you live in?',
-  country: 'If you live outside the UK, which country do you live in?',
   postcode: 'The first part of your postcode only, for example SW1A (optional)',
   organisation: 'Are you currently involved with a youth council, youth group or youth organisation?',
   reintroduce: 'What are the top three things you want the government to bring back for young people?',
@@ -179,10 +170,10 @@ const ratingHeader = (battery, area) => `${battery.question} [${area.label}]`;
 const POSTCODES = ['SW1A','M14','B29','LS6','G12','CF10','BT9','NE1','EH8','L18','BS8','NG7','S10','CV1','PL4','TS1'];
 
 function buildRow(i) {
-  const overseas = rnd() < 0.075;
-  const regionId = overseas ? null : weightedPick(REGION_WEIGHTS);
-  const region = regionId ? T.UK_REGIONS.find(r => r.id === regionId) : null;
-  const country = overseas ? pick(OVERSEAS) : null;
+  /* Pick first: weightedPick inside a find() predicate would re-roll for every
+     element and almost never match. */
+  const regionId = weightedPick(REGION_WEIGHTS);
+  const region = T.UK_REGIONS.find(r => r.id === regionId);
 
   const age = weightedPick([['13_15', 18], ['16_18', 32], ['19_21', 26], ['22_25', 19], ['u13', 2], ['o25', 3]]);
 
@@ -204,9 +195,8 @@ function buildRow(i) {
   const row = {
     [H.timestamp]: timestampFor(i),
     [H.age]: T.AGE_BANDS.find(b => b.id === age).label,
-    [H.region]: region ? region.label : 'I live outside the UK',
-    [H.country]: country ? country[0] : '',
-    [H.postcode]: region && rnd() < 0.55 ? pick(POSTCODES) : '',
+    [H.region]: region.label,
+    [H.postcode]: rnd() < 0.55 ? pick(POSTCODES) : '',
     [H.organisation]: weightedPick([['Yes', 34], ['No', 58], ['Prefer not to say', 8]]),
     [H.reintroduce]: reintroduce,
     [H.reintroduceText]: pick(REINTRODUCE_TEXT),
@@ -257,7 +247,7 @@ const TOTAL = 874;
 const rows = Array.from({ length: TOTAL }, (_, i) => buildRow(i));
 
 const headers = [
-  H.timestamp, H.age, H.region, H.country, H.postcode, H.organisation,
+  H.timestamp, H.age, H.region, H.postcode, H.organisation,
   H.reintroduce, H.reintroduceText, H.ukProblem, H.ukWhy, H.cwProblem, H.cwWhy,
   ...T.RATING_BATTERIES.flatMap(b => T.POLICY_AREAS.map(a => ratingHeader(b, a))),
   H.cwPriorities, H.chogm,

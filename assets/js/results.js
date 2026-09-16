@@ -40,7 +40,6 @@
   function initFilters() {
     const region = $('#filter-region');
     T.UK_REGIONS.forEach(r => region.add(new Option(r.label, r.id)));
-    region.add(new Option('Outside the UK', '__overseas'));
 
     const age = $('#filter-age');
     T.AGE_BANDS.forEach(b => age.add(new Option(b.label, b.id)));
@@ -52,8 +51,7 @@
   function filteredRows() {
     const { region, age } = state.filters;
     return state.dataset.rows.filter(r => {
-      if (region === '__overseas') { if (r.ukRegion) return false; }
-      else if (region && r.ukRegion !== region) return false;
+      if (region && r.ukRegion !== region) return false;
       if (age && r.age !== age) return false;
       return true;
     });
@@ -61,8 +59,7 @@
 
   function filterCaption() {
     const bits = [];
-    if (state.filters.region === '__overseas') bits.push('respondents outside the UK');
-    else if (state.filters.region) bits.push(T.UK_REGIONS.find(r => r.id === state.filters.region).label);
+    if (state.filters.region) bits.push(T.UK_REGIONS.find(r => r.id === state.filters.region).label);
     if (state.filters.age) bits.push(`aged ${T.AGE_BANDS.find(a => a.id === state.filters.age).label}`);
     return bits.length ? ` Filtered to ${bits.join(', ')}.` : '';
   }
@@ -141,10 +138,9 @@
         ranked.map(r => `<li>${C.escapeHtml(r.label)} — <strong class="tnum">${num(r.count)}</strong></li>`).join('')
       }</ol>`;
 
-    const overseas = s.byCwRegion.items.reduce((a, b) => a + b.count, 0);
     $('#map-foot').textContent =
-      `${num(s.total - s.byRegion.missing)} responses mapped to a UK nation or region; ` +
-      `${num(overseas)} from elsewhere in the Commonwealth.${filterCaption()}`;
+      `${num(s.total - s.byRegion.missing)} of ${num(s.total)} responses are mapped to a ` +
+      `UK nation or region.${filterCaption()}`;
 
     C.withTable($('#fig-map'), {
       caption: 'Responses by UK nation and region',
@@ -340,24 +336,6 @@
       });
     } else emptyFigure('#chart-age', 'No age data yet.');
 
-    const cw = s.byCwRegion.items.filter(i => i.count > 0);
-    if (cw.length) {
-      C.barChart($('#chart-cw-region'), {
-        items: cw.map(i => ({ label: i.label, value: i.count })),
-        format: v => num(v), valueLabel: 'Responses', labelWidth: 150,
-        color: C.token('--series-3'),
-        ariaLabel: 'Respondents outside the UK by Commonwealth region'
-      });
-      $('#cw-region-foot').textContent = baseNote(cw.reduce((a, b) => a + b.count, 0), 'respondents outside the UK');
-      C.withTable($('#fig-cw-region'), {
-        caption: 'Respondents by Commonwealth region',
-        columns: [{ label: 'Region' }, { label: 'Responses', numeric: true }],
-        rows: cw.map(i => [i.label, num(i.count)])
-      });
-    } else {
-      emptyFigure('#chart-cw-region', 'No responses from outside the UK yet.');
-      $('#cw-region-foot').textContent = '';
-    }
   }
 
   function renderQuotes(rows) {
@@ -418,6 +396,25 @@
   /* "Mental health and wellbeing" -> "Mental health", for scatter point labels. */
   function shortName(label) {
     return label.split(/ and | & |,/)[0].trim();
+  }
+
+  /* ---------- the map, with no data behind it -----------------------------
+     Drawn whenever the results cannot be read. Somebody arriving at a broken
+     dashboard should still see the twelve nations and regions the consultation
+     covers, and where their own answer would land, rather than an error alone. */
+  function renderPlaceholderMap() {
+    const host = $('#error-map');
+    if (!host || host.dataset.drawn) return;
+    const empty = T.UK_REGIONS.map(r => ({ id: r.id, label: r.label, short: r.short, count: 0 }));
+    M.choropleth(host, { items: empty, total: 0, unitLabel: 'responses' });
+    $('#error-map-note').innerHTML =
+      `<p class="muted" style="font-size:var(--step--1);margin:0">
+         Twelve nations and regions, each an equal-sized tile so that no part of the country is
+         visually lost. Once responses arrive, each tile is shaded by how many young people there
+         have taken part.
+       </p>
+       <p style="margin-top:var(--sp-4)"><a class="btn btn--primary btn--sm" href="consultation.html">Add your voice</a></p>`;
+    host.dataset.drawn = '1';
   }
 
   /* ---------- downloads ---------------------------------------------------- */
@@ -522,6 +519,7 @@
       $('#dashboard').hidden = true;
       $('#error-state').hidden = false;
       $('#error-message').textContent = err.message;
+      renderPlaceholderMap();
     }
   }
 

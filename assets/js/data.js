@@ -73,7 +73,6 @@ const FIELD_RULES = [
   { key: 'age',            all: ['age'],            any: ['age'] },
   { key: 'ukRegion',       all: [],                 any: ['which nation or region', 'nation or region of the uk', 'where in the uk', 'region do you live'] },
   { key: 'postcodeArea',   all: [],                 any: ['postcode'] },
-  { key: 'country',        all: [],                 any: ['which country do you live', 'country of residence', 'commonwealth country'] },
   { key: 'reintroduce',    all: [],                 any: ['bring back', 'reintroduce', 'reinstate'] },
   { key: 'reintroduceText',all: [],                 any: ['anything else you would bring back', 'in your own words bring back'] },
   { key: 'ukProblem',      all: ['uk'],             any: ['biggest problem facing young people'] },
@@ -135,21 +134,6 @@ function matchFromList(value, list, extraKeys = []) {
   return hit ? hit.id : null;
 }
 
-/* Map a free-text country answer to a Commonwealth region. Matching is exact
-   after normalisation first, then a contains test so that "Tanzania" finds
-   "United Republic of Tanzania" and "Bahamas" finds "The Bahamas". */
-function countryToRegion(value) {
-  const v = norm(value);
-  if (!v) return null;
-  const exact = T.COMMONWEALTH_COUNTRIES.find(c => norm(c.name) === v);
-  if (exact) return exact.region;
-  const loose = T.COMMONWEALTH_COUNTRIES.find(c => {
-    const n = norm(c.name);
-    return n.includes(v) || v.includes(n);
-  });
-  return loose ? loose.region : null;
-}
-
 /* Checkbox answers arrive as one cell joined with ", ". Several of our option
    labels contain commas themselves, so splitting is unsafe — we test for each
    option's distinctive comma-free phrase instead. */
@@ -188,13 +172,10 @@ function normaliseRecords(records, map) {
       });
     });
 
-    const countryRaw = get(rec, 'country');
     return {
       timestamp:   parseTimestamp(get(rec, 'timestamp')),
       age:         matchFromList(get(rec, 'age'), T.AGE_BANDS),
       ukRegion:    matchFromList(get(rec, 'ukRegion'), T.UK_REGIONS, ['short']),
-      country:     countryRaw,
-      cwRegion:    countryToRegion(countryRaw),
       postcodeArea: get(rec, 'postcodeArea').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 4),
       ratings,
       reintroduce: matchReintroduce(get(rec, 'reintroduce')),
@@ -295,9 +276,7 @@ function verbatims(rows, key, { minLength = 12, limit = Infinity } = {}) {
     .filter(r => (r.texts[key] || '').trim().length >= minLength)
     .map(r => ({
       text: r.texts[key].trim(),
-      region: T.UK_REGIONS.find(x => x.id === r.ukRegion)?.label
-           || T.COMMONWEALTH_REGIONS.find(x => x.id === r.cwRegion)?.label
-           || 'Location not given',
+      region: T.UK_REGIONS.find(x => x.id === r.ukRegion)?.label || 'Location not given',
       age: T.AGE_BANDS.find(x => x.id === r.age)?.label || null
     }))
     .slice(0, limit);
@@ -310,7 +289,6 @@ function summarise(rows) {
     total: rows.length,
     ratedTotal: ratedRows.length,
     byRegion: countBy(rows, r => r.ukRegion, T.UK_REGIONS),
-    byCwRegion: countBy(rows, r => r.cwRegion, T.COMMONWEALTH_REGIONS),
     byAge: countBy(rows, r => r.age, T.AGE_BANDS),
     ukProblem: countBy(rows, r => r.ukProblem, T.POLICY_AREAS),
     cwProblem: countBy(rows, r => r.cwProblem, T.POLICY_AREAS),
@@ -363,7 +341,7 @@ function buildDataset(csvText, source = { kind: 'live', origin: 'uploaded file' 
 }
 
 const DATA = {
-  norm, hasToken, mean, median, round1, countryToRegion, buildColumnMap, normaliseRecords, summarise,
+  norm, hasToken, mean, median, round1, buildColumnMap, normaliseRecords, summarise,
   batteryStats, priorityGaps, reintroduceCounts, verbatims, countBy,
   loadDataset, buildDataset, resolveSource, matchRatingColumn
 };
