@@ -143,7 +143,7 @@
     });
 
     /* Drawn from postcodes, which are optional, so this count is not the total. */
-    const { places, unplaced } = window.LIVEMAP.locations(filteredRows());
+    const { places } = window.LIVEMAP.locations(filteredRows());
     const placed = places.reduce((a, p) => a + p.count, 0);
 
     window.LIVEMAP.destroy(host);
@@ -166,7 +166,7 @@
       $('#map-legend').innerHTML = '';
       $('#map-foot').textContent =
         `${num(placed)} of ${num(s.total)} responses are placed by postcode across ${places.length} ` +
-        `postcode area${places.length === 1 ? '' : 's'}; ${num(unplaced)} did not give one.${filterCaption()}`;
+        `postcode area${places.length === 1 ? '' : 's'}.${filterCaption()}`;
     });
   }
 

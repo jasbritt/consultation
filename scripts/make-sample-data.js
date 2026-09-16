@@ -167,7 +167,24 @@ const H = {
 };
 const ratingHeader = (battery, area) => `${battery.question} [${area.label}]`;
 
-const POSTCODES = ['SW1A','M14','B29','LS6','G12','CF10','BT9','NE1','EH8','L18','BS8','NG7','S10','CV1','PL4','TS1'];
+/* Postcode areas that actually fall in each nation and region, so a synthetic
+   London respondent gets a London postcode. Without this the map contradicts
+   the region filter — filtering to London still showed sixteen postcode areas,
+   because the postcode was picked at random from the whole country. */
+const REGION_POSTCODES = {
+  scotland:   ['G1','G12','EH8','AB10','DD1','IV2','KY1','PA1','ML1','FK1','KA1','PH1'],
+  ni:         ['BT1','BT9','BT15','BT47'],
+  north_east: ['NE1','NE6','SR2','DH1','DL1','TS1'],
+  north_west: ['M14','M1','L18','L1','PR1','BL1','OL1','WN1','WA1','CH1','CA1','LA1','FY1','BB1','SK1'],
+  yorkshire:  ['LS6','LS1','BD1','S10','HU1','YO1','WF1','HD1','HX1','HG1','DN1'],
+  wales:      ['CF10','CF24','SA1','NP20','LL30','LD1'],
+  west_mids:  ['B29','B1','CV1','DY1','WS1','WV1','ST1','WR1','HR1','TF1'],
+  east_mids:  ['NG7','NG1','LE1','DE1','LN1','NN1'],
+  east:       ['CB1','NR1','IP1','CO1','CM1','SS1','PE1','LU1','AL1','SG1','HP1','MK1'],
+  south_west: ['BS8','BS1','BA1','EX1','PL4','TR1','TQ1','GL1','SN1','DT1','TA1'],
+  south_east: ['RG1','GU1','SL1','OX1','PO1','SO14','BN1','ME1','CT1','TN1','RH1','KT1'],
+  london:     ['SW1A','SE1','E1','EC1A','N1','NW1','W1A','WC1A','BR1','CR0','EN1','HA1','IG1','RM1','SM1','TW1','UB1']
+};
 
 function buildRow(i) {
   /* Pick first: weightedPick inside a find() predicate would re-roll for every
@@ -196,7 +213,7 @@ function buildRow(i) {
     [H.timestamp]: timestampFor(i),
     [H.age]: T.AGE_BANDS.find(b => b.id === age).label,
     [H.region]: region.label,
-    [H.postcode]: rnd() < 0.55 ? pick(POSTCODES) : '',
+    [H.postcode]: rnd() < 0.55 ? pick(REGION_POSTCODES[region.id]) : '',
     [H.organisation]: weightedPick([['Yes', 34], ['No', 58], ['Prefer not to say', 8]]),
     [H.reintroduce]: reintroduce,
     [H.reintroduceText]: pick(REINTRODUCE_TEXT),
