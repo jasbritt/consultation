@@ -33,8 +33,8 @@ const CONFIG = {
      Until embedUrl is set the consultation page shows the setup instructions
      instead of an empty grey box.                                            */
   form: {
-    embedUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeTXtwwP8Lj9PFck9WmL6cEEaFIsIq9UnVvBSBcL6u3zfEAnQ/viewform?embedded=true',
-    shareUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeTXtwwP8Lj9PFck9WmL6cEEaFIsIq9UnVvBSBcL6u3zfEAnQ/viewform',
+    embedUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdeFgnkACJoToeW_YFtPyAwqFRkYW4p0q-PypPwii--lEhPVg/viewform?embedded=true',
+    shareUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdeFgnkACJoToeW_YFtPyAwqFRkYW4p0q-PypPwii--lEhPVg/viewform',
     estimatedMinutes: 9
   },
 
@@ -50,14 +50,11 @@ const CONFIG = {
        3. this value,
        4. the bundled sample data (clearly badged as sample).                 */
   data: {
-    /* NOT YET SET. The responses spreadsheet is
-       https://docs.google.com/spreadsheets/d/1HIJv8bwKLfePb4qfl-EsIq01BQXj1FqIUYNsWo33oOQ/edit
-       but that is its private edit link, which a website cannot read. In that
-       spreadsheet choose File › Share › Publish to web, pick the responses
-       sheet and "Comma-separated values (.csv)", press Publish, and paste the
-       resulting .../pub?output=csv link here. Until then the results page
-       shows the bundled sample data, clearly badged as such. */
-    publishedCsvUrl: '',
+    /* The responses sheet published to the web as CSV. This is a read-only
+       published link, not the private edit link, which is what makes it
+       readable by a static site. The underlying spreadsheet is
+       https://docs.google.com/spreadsheets/d/1K0_3oKBKgHF_7wfpP8Wn6C6f3Hh4E2EqE2TaSCYwGsw/edit */
+    publishedCsvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRd5PnyFcqgSkTtx_-7igsfm2BoOms0wZuX7IxnuzJn8Zj5uA7_lynyBDObXdPb9ABeqiX-MTMUN9EX/pub?gid=725590805&single=true&output=csv',
     sampleCsvUrl: 'assets/data/sample-responses.csv',
     /* Google's published-CSV endpoint sends permissive CORS headers, so the
        fetch works from any origin. If you ever host the sheet somewhere that
