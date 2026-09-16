@@ -332,6 +332,14 @@ a:hover { color: var(--accent); }
 }
 .card h3 { font-size: var(--step-1); }
 .card p:last-child { margin-bottom: 0; }
+.card--compact { padding: var(--sp-4); }
+.card--compact h3 { font-size: var(--step-0); margin-bottom: var(--sp-2); }
+.card--compact p { font-size: var(--step--1); line-height: 1.5; }
+/* Four across on a wide screen, folding to two and then one. */
+.grid--ask { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1000px) { .grid--ask { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px)  { .grid--ask { grid-template-columns: 1fr; } }
+
 .card__num {
   display: grid; place-items: center; width: 34px; height: 34px; border-radius: 8px;
   background: var(--accent-wash); color: var(--accent-deep);
@@ -340,6 +348,7 @@ a:hover { color: var(--accent); }
 
 /* Team */
 .person { display: flex; flex-direction: column; gap: var(--sp-2); }
+.who__people .person { padding: var(--sp-4); gap: var(--sp-3); }
 .person__avatar {
   display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
   background: var(--accent-wash); color: var(--accent-deep); font-weight: 700; font-size: 1.05rem;
@@ -348,12 +357,28 @@ a:hover { color: var(--accent); }
 .person__role { font-size: var(--step--1); color: var(--ink-muted); }
 .person p { font-size: var(--step--1); color: var(--ink-2); margin: 0; }
 
+/* "Who we are": the description on the left, the delegation beside it. */
+.who {
+  display: grid; gap: var(--sp-6) var(--sp-7);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+  align-items: start;
+}
+.who__text h2 { margin-bottom: var(--sp-4); }
+.who__text p { color: var(--ink-2); max-width: 54ch; margin-bottom: 0; }
+.who__people { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
+@media (max-width: 860px) {
+  .who { grid-template-columns: 1fr; }
+  .who__people { max-width: 420px; }
+}
+
 /* A member photograph sits where the initials avatar would. Square crop, so a
    portrait and a headshot of different proportions still line up in the grid. */
 .person__photo {
-  width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 22%;
+  width: 100%; max-width: 150px; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 22%;
   border-radius: var(--radius); background: var(--surface-2); display: block;
 }
+.who__people .person__name { font-size: var(--step-0); }
+.who__people .person__role { font-size: .78rem; line-height: 1.35; }
 .person__avatar--fallback { width: 52px; height: 52px; }
 
 /* Link cards — the wider-programme links under the team */

@@ -117,7 +117,7 @@
           <div class="person__name">${m.name}</div>
           <div class="person__role">${m.role || ''}</div>
         </div>
-        <p>${m.bio || ''}</p>
+        ${m.bio ? `<p>${m.bio}</p>` : ''}
       </div>`).join('');
 
     const linkHost = document.querySelector('[data-team-links]');

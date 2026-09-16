@@ -87,23 +87,19 @@ const CONFIG = {
      page never shows a broken image.                                          */
   team: {
     intro:
-      'We are the UK Young Ambassadors: a delegation of young people elected and ' +
-      'selected to represent young people from across the four nations of the ' +
-      'United Kingdom in international spaces, including the Commonwealth.',
+      'The UK Young Ambassadors (UKYA) represent the voices of young people from across the UK in ' +
+      'European and Commonwealth institutes, policy places, and forums. The Young Ambassadors are ' +
+      'elected in by youth organisations to represent UK young people and serve a term of three years.',
     members: [
       {
         name: 'Jasmine Brittan',
         role: 'UK Young Ambassador to the Commonwealth',
-        photo: 'assets/img/team/jasmine-brittan.jpg',
-        bio: 'Represents young people from across the United Kingdom in Commonwealth ' +
-             'decision-making spaces, and is leading this consultation.'
+        photo: 'assets/img/team/jasmine-brittan.jpg'
       },
       {
         name: 'Falak Raja',
         role: 'UK Young Ambassador to the Commonwealth',
-        photo: 'assets/img/team/falak-raja.jpg',
-        bio: 'Represents young people from across the United Kingdom in Commonwealth ' +
-             'decision-making spaces.'
+        photo: 'assets/img/team/falak-raja.jpg'
       }
     ],
 
