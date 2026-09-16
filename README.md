@@ -101,6 +101,38 @@ run `form/create-form.gs` in Google Apps Script to build the form, publish the
 responses sheet to the web as CSV, and paste two URLs into
 `assets/js/config.js`.
 
+## Publishing on GitHub Pages
+
+The repository is already the source of truth for the site. To put it online:
+
+1. Go to **Settings → Pages** in the repository.
+2. Under **Build and deployment**, set *Source* to **Deploy from a branch**.
+3. Pick the branch the site lives on and the **`/ (root)`** folder, then **Save**.
+
+Within a minute or two the site is live at
+`https://<username>.github.io/consultation/`. Every push to that branch
+redeploys it automatically.
+
+All paths in the site are relative, so it works correctly from a subpath like
+`/consultation/` without any base-URL configuration. The empty `.nojekyll` file
+in the root tells Pages to serve the files as they are rather than running them
+through Jekyll.
+
+### Updating the live site without using git
+
+The two files most likely to need changing — `assets/js/config.js` and anything
+under `assets/img/` — can be edited straight from the GitHub web interface, with
+no local tooling:
+
+- **To edit config.js:** open it in the repository, click the pencil icon,
+  make the change and press *Commit changes*.
+- **To add images:** open `assets/img/work/` (or `team/`, `logos/`), then use
+  **Add file → Upload files** and drag them in.
+
+Each commit redeploys the site. This matters because a local copy of the folder
+and the repository can drift apart: treat the repository as authoritative, and
+the live site always matches it.
+
 ## Two things to read before you publish
 
 **Logos.** The site ships with typographic placeholder plates, not logos. Do not
