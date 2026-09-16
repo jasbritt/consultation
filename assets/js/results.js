@@ -163,10 +163,7 @@
       }
     }).then(result => {
       if (!result || !result.ok) return;
-      $('#map-legend').innerHTML =
-        `<p class="muted" style="font-size:var(--step--1);margin:0">
-           Dots are placed by postcode area, so they show the town a response came from, not an address.
-         </p>`;
+      $('#map-legend').innerHTML = '';
       $('#map-foot').textContent =
         `${num(placed)} of ${num(s.total)} responses are placed by postcode across ${places.length} ` +
         `postcode area${places.length === 1 ? '' : 's'}; ${num(unplaced)} did not give one.${filterCaption()}`;
