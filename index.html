@@ -41,50 +41,45 @@
 
 <main id="main">
 
-  <section class="hero">
-    <div class="wrap hero__grid">
-      <div>
+  <section class="hero hero--media">
+    <!-- Decorative background carousel. The photographs are described by the
+         caption beneath, so the layer itself is hidden from assistive tech. -->
+    <div class="hero__media" data-hero-carousel aria-hidden="true"></div>
+    <div class="hero__scrim" aria-hidden="true"></div>
+
+    <div class="wrap hero__inner">
+      <div class="hero__panel">
         <span class="eyebrow">UK Young Ambassadors</span>
         <h1>Young people’s priorities for the Commonwealth</h1>
         <p class="hero__lede">
           We are gathering evidence from young people across the four nations of the UK on what is failing
-          them now, what matters most for their future, and what they want government to bring back. The
-          findings go to UK ministers and to
-          <span data-config="consultation.chogmLabel">the next Commonwealth Heads of Government Meeting</span>.
+          them now, what matters most for their future, and what they want government to bring back.
+          These findings will be utilised to formulate policy for the next Commonwealth Youth Forum, taking
+          place between the 2nd–4th November 2026 at the University of the West Indies, Five Islands Campus
+          in Antigua &amp; Barbuda. This event will take place within the larger Commonwealth Heads of
+          Government Meeting.
         </p>
         <div class="hero__actions">
           <a class="btn btn--primary" href="consultation.html">Take part</a>
           <a class="btn btn--ghost" href="results.html">See the results so far</a>
         </div>
       </div>
-      <dl class="hero__facts">
-        <div class="hero__fact"><dt>Who it is for</dt><dd>Anyone aged 13–25 living in the UK</dd></div>
-        <div class="hero__fact"><dt>Closes</dt><dd><span data-config="consultation.closesOn" data-format="date">—</span></dd></div>
-        <div class="hero__fact"><dt>Takes</dt><dd>About <span data-config="form.estimatedMinutes">9</span> minutes</dd></div>
-        <div class="hero__fact"><dt>Goes to</dt><dd>UK government departments and Commonwealth youth structures</dd></div>
-      </dl>
+    </div>
+
+    <div class="wrap hero__media-foot">
+      <p class="hero__caption" data-hero-caption aria-live="polite"></p>
+      <div class="hero__dots" data-hero-dots></div>
     </div>
   </section>
 
-  <section class="section section--compact" data-gallery-section>
+  <section class="factbar">
     <div class="wrap">
-      <div class="carousel" data-carousel>
-        <div class="carousel__viewport" data-carousel-track
-             role="group" aria-roledescription="carousel"
-             aria-label="Photographs of the UK Young Ambassadors at work" tabindex="0"></div>
-
-        <button class="carousel__nav carousel__nav--prev" type="button" data-carousel-prev aria-label="Previous photograph">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <button class="carousel__nav carousel__nav--next" type="button" data-carousel-next aria-label="Next photograph">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
-        </button>
-
-        <div class="carousel__foot">
-          <p class="carousel__caption" data-carousel-caption aria-live="polite"></p>
-          <div class="carousel__dots" data-carousel-dots></div>
-        </div>
-      </div>
+      <dl class="factbar__list">
+        <div class="factbar__item"><dt>Who it is for</dt><dd>Anyone aged 13–25 living in the UK</dd></div>
+        <div class="factbar__item"><dt>Closes</dt><dd><span data-config="consultation.closesOn" data-format="date">—</span></dd></div>
+        <div class="factbar__item"><dt>Takes</dt><dd>About <span data-config="form.estimatedMinutes">9</span> minutes</dd></div>
+        <div class="factbar__item"><dt>Goes to</dt><dd>The 2026 Commonwealth Youth Forum and UK government departments</dd></div>
+      </dl>
     </div>
   </section>
 

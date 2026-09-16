@@ -222,39 +222,79 @@ a:hover { color: var(--accent); }
 .notice__icon { flex: none; font-size: 1.1em; line-height: 1.45; }
 .draft-strip { background: transparent; padding-block: var(--sp-3) 0; }
 
-/* ---------- 5. Hero -------------------------------------------------------- */
+/* ---------- 5. Hero -------------------------------------------------------
+   A photo carousel behind an overlaid panel. The photographs are decorative
+   background; the caption beneath carries what they show.                    */
 .hero {
-  background:
-    radial-gradient(1100px 520px at 12% -10%, rgba(42,120,214,.20), transparent 62%),
-    radial-gradient(900px 480px at 92% 8%, rgba(27,175,122,.14), transparent 60%),
-    var(--brand-deep);
-  color: #fff; padding-block: var(--sp-8) var(--sp-7);
+  position: relative; isolation: isolate; overflow: hidden;
+  background: var(--brand-deep); color: #fff;
+  padding-block: var(--sp-8) var(--sp-7);
   border-bottom: 1px solid rgba(255,255,255,.08);
 }
-.hero h1 { color: #fff; max-width: 20ch; }
-.hero__grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: var(--sp-7); align-items: center; }
-.hero__lede { color: rgba(255,255,255,.84); font-size: var(--step-1); max-width: 56ch; }
-/* The eyebrow is used both on the dark hero and on light page headers, so its
-   base colour is page ink and the hero overrides it — not the other way round,
-   which left it white on white everywhere else. */
+.hero--media { min-height: clamp(440px, 64vh, 660px); display: flex; flex-direction: column; justify-content: center; }
+
+/* Small uppercase label above a heading. Used on the dark hero and on light
+   page headers, so its base colour is page ink and the hero overrides it. */
 .eyebrow {
   display: inline-flex; align-items: center; gap: var(--sp-2);
   font-size: .76rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
   color: var(--ink-muted); margin-bottom: var(--sp-4);
 }
 .eyebrow::before { content: ""; width: 22px; height: 2px; background: var(--series-3); border-radius: 2px; }
-.hero .eyebrow, .banner .eyebrow { color: rgba(255,255,255,.72); }
-.hero__actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-5); }
-.hero__facts {
-  display: grid; gap: var(--sp-3);
-  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
-  border-radius: var(--radius-lg); padding: var(--sp-5);
-  backdrop-filter: blur(6px);
+.hero .eyebrow, .banner .eyebrow { color: rgba(255,255,255,.78); }
+
+.hero__media { position: absolute; inset: 0; z-index: -2; }
+.hero__slide {
+  position: absolute; inset: 0; background-size: cover; background-position: center;
+  opacity: 0; transition: opacity .9s ease-in-out;
 }
-.hero__fact { display: flex; gap: var(--sp-3); align-items: baseline; }
-.hero__fact dt { flex: none; width: 8.5rem; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: rgba(255,255,255,.6); }
-.hero__fact dd { margin: 0; font-weight: 600; color: #fff; }
-@media (max-width: 900px) { .hero__grid { grid-template-columns: 1fr; gap: var(--sp-5); } }
+.hero__slide.is-active { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .hero__slide { transition: none; } }
+
+/* Two scrims: a horizontal one so the panel edge never sits on a bright face,
+   and a vertical one to keep the caption and header legible. */
+.hero__scrim {
+  position: absolute; inset: 0; z-index: -1;
+  background:
+    linear-gradient(100deg, rgba(6,24,41,.94) 0%, rgba(6,24,41,.86) 42%, rgba(6,24,41,.45) 72%, rgba(6,24,41,.35) 100%),
+    linear-gradient(to bottom, rgba(6,24,41,.55), transparent 28%, transparent 62%, rgba(6,24,41,.7));
+}
+.hero__inner { width: min(100% - 2.5rem, var(--wrap)); }
+.hero__panel { max-width: 46rem; }
+.hero h1 { color: #fff; max-width: 18ch; text-wrap: balance; }
+.hero__lede { color: rgba(255,255,255,.88); font-size: var(--step-1); max-width: 56ch; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-5); }
+
+.hero__media-foot {
+  display: flex; flex-wrap: wrap; gap: var(--sp-3) var(--sp-4); align-items: center;
+  justify-content: space-between; margin-top: var(--sp-6);
+}
+.hero__caption { margin: 0; font-size: var(--step--1); color: rgba(255,255,255,.72); }
+.hero__dots { display: flex; gap: var(--sp-2); margin-left: auto; }
+.hero__dot {
+  width: 9px; height: 9px; padding: 0; border: 0; border-radius: 50%; cursor: pointer;
+  background: rgba(255,255,255,.4); transition: background .15s, transform .15s;
+}
+.hero__dot:hover { background: rgba(255,255,255,.75); }
+.hero__dot[aria-current="true"] { background: #fff; transform: scale(1.3); }
+
+@media (max-width: 700px) {
+  .hero--media { min-height: 0; }
+  .hero h1 { max-width: none; }
+  .hero__scrim { background: linear-gradient(to bottom, rgba(6,24,41,.82), rgba(6,24,41,.93)); }
+}
+
+/* The facts that used to sit beside the hero, now a strip beneath it. */
+.factbar { background: var(--surface); border-bottom: 1px solid var(--rule); }
+.factbar__list {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--sp-4) var(--sp-5); margin: 0; padding-block: var(--sp-5);
+}
+.factbar__item dt {
+  font-size: .72rem; text-transform: uppercase; letter-spacing: .07em;
+  color: var(--ink-muted); margin-bottom: .25rem;
+}
+.factbar__item dd { margin: 0; font-weight: 600; color: var(--ink); font-size: var(--step-0); }
 
 /* ---------- 6. Buttons ----------------------------------------------------- */
 .btn {
@@ -276,8 +316,11 @@ a:hover { color: var(--accent); }
 /* ---------- 7. Sections and cards ------------------------------------------ */
 .section { padding-block: var(--sp-8); }
 .section--tint { background: var(--surface-2); border-block: 1px solid var(--rule); }
-.section__head { max-width: 62ch; margin-bottom: var(--sp-6); }
-.section__head p { color: var(--ink-2); }
+/* The measure belongs on the prose, not on the block: constraining the whole
+   head made headings wrap early ("Why we are running this consultation" broke
+   over two lines with half the container empty beside it). */
+.section__head { margin-bottom: var(--sp-6); }
+.section__head p { color: var(--ink-2); max-width: 62ch; }
 .grid { display: grid; gap: var(--sp-5); }
 .grid--3 { grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); }
 .grid--2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
@@ -323,59 +366,6 @@ a:hover { color: var(--accent); }
 .link-card__blurb { font-size: var(--step--1); color: var(--ink-2); }
 .link-card__cue { font-size: var(--step--1); font-weight: 600; color: var(--accent-deep); margin-top: auto; }
 @media (prefers-reduced-motion: reduce) { .link-card:hover { transform: none; } }
-
-/* Photographs of the delegation's work, as a carousel ----------------------
-   Built on scroll-snap rather than a transform track: swipe, trackpad and
-   keyboard scrolling all work natively, the buttons just call scrollTo, and
-   with JavaScript unavailable it degrades to a scrollable row of photos. */
-.section--compact { padding-block: var(--sp-6); }
-
-.carousel { position: relative; max-width: 900px; margin-inline: auto; }
-.carousel__viewport {
-  display: flex; gap: var(--sp-4);
-  overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
-  border-radius: var(--radius-lg);
-  /* Hide the scrollbar — the dots and buttons carry the affordance. */
-  scrollbar-width: none; -ms-overflow-style: none;
-}
-.carousel__viewport::-webkit-scrollbar { display: none; }
-.carousel__viewport:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
-@media (prefers-reduced-motion: reduce) { .carousel__viewport { scroll-behavior: auto; } }
-
-.shot { margin: 0; flex: 0 0 100%; scroll-snap-align: center; }
-.shot img {
-  width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: center; display: block;
-  border-radius: var(--radius-lg); background: var(--surface-sunk); border: 1px solid var(--rule);
-}
-/* Photographs vary from portrait to wide, so any one that crops badly can set
-   its own focal point with `focus` in config.js (e.g. 'center 25%'). */
-
-/* Previous / next, sitting over the photo edges */
-.carousel__nav {
-  position: absolute; top: calc(50% - 28px); transform: translateY(-50%);
-  display: grid; place-items: center; width: 44px; height: 44px; z-index: 2;
-  border: 1px solid var(--rule); border-radius: 50%; cursor: pointer;
-  background: var(--surface); color: var(--ink); box-shadow: var(--shadow);
-  transition: background .15s, opacity .15s;
-}
-.carousel__nav:hover { background: var(--surface-2); }
-.carousel__nav--prev { left: var(--sp-3); }
-.carousel__nav--next { right: var(--sp-3); }
-.carousel__nav[disabled] { opacity: .35; cursor: default; }
-@media (max-width: 560px) { .carousel__nav { width: 38px; height: 38px; } }
-
-.carousel__foot {
-  display: flex; flex-wrap: wrap; gap: var(--sp-3) var(--sp-4);
-  align-items: center; justify-content: space-between; margin-top: var(--sp-3);
-}
-.carousel__caption { margin: 0; font-size: var(--step--1); color: var(--ink-2); }
-.carousel__dots { display: flex; gap: var(--sp-2); margin-left: auto; }
-.carousel__dot {
-  width: 9px; height: 9px; padding: 0; border-radius: 50%; cursor: pointer;
-  border: 0; background: var(--axis); transition: background .15s, transform .15s;
-}
-.carousel__dot:hover { background: var(--ink-muted); }
-.carousel__dot[aria-current="true"] { background: var(--accent); transform: scale(1.25); }
 
 /* Partner strip */
 .partners { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: stretch; }

@@ -89,7 +89,6 @@
     renderGap(s);
     renderDemographics(s);
     renderQuotes(rows);
-    renderDiagnostics();
 
     $('#loading-state').hidden = true;
     $('#error-state').hidden = true;
@@ -355,37 +354,6 @@
       </figure>`).join('');
     $('#quotes-foot').textContent = `Showing ${shown.length} of ${num(all.length)} free-text answers.`;
     $('#btn-more-quotes').hidden = shown.length >= all.length;
-  }
-
-  function renderDiagnostics() {
-    const map = state.dataset.map;
-    const matchedRatings = T.RATING_BATTERIES.map(b => {
-      const found = Object.keys(map.ratings[b.id]).length;
-      const missing = T.POLICY_AREAS.filter(a => !map.ratings[b.id][a.id]).map(a => a.label);
-      return { battery: b.label, found, missing };
-    });
-
-    const rows = [
-      ...Object.entries(map.fields).map(([k, v]) => [k, v]),
-      ...matchedRatings.map(r => [`${r.battery} (ratings)`, `${r.found} of ${T.POLICY_AREAS.length} policy areas matched`])
-    ];
-
-    const problems = matchedRatings.filter(r => r.missing.length);
-    $('#diagnostics-body').innerHTML = `
-      <p class="muted" style="font-size:var(--step--1)">
-        Spreadsheet columns are matched to questions by keyword, so an edit to the wording of a question in the
-        form does not break the charts. If something below looks wrong, the column header has drifted too far
-        from the question text in <code>assets/js/taxonomy.js</code>.
-      </p>
-      ${problems.length ? `<div class="notice" style="margin-bottom:var(--sp-4)"><span class="notice__icon">!</span>
-        <p><strong>Some rating columns were not found.</strong> ${problems.map(p =>
-          `${C.escapeHtml(p.battery)}: missing ${C.escapeHtml(p.missing.join(', '))}`).join('; ')}.</p></div>` : ''}
-      <div class="table-wrap"><table class="data">
-        <thead><tr><th scope="col">Question</th><th scope="col">Spreadsheet column</th></tr></thead>
-        <tbody>${rows.map(([k, v]) => `<tr><td>${C.escapeHtml(k)}</td><td>${C.escapeHtml(v)}</td></tr>`).join('')}</tbody>
-      </table></div>
-      ${map.unmatched.length ? `<p class="muted" style="font-size:var(--step--1);margin-top:var(--sp-4)">
-        <strong>${map.unmatched.length} column(s) not used:</strong> ${C.escapeHtml(map.unmatched.join(' · '))}</p>` : ''}`;
   }
 
   function emptyFigure(sel, message) {

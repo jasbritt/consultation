@@ -73,7 +73,8 @@ const CONFIG = {
     { name: 'Department for Culture, Media and Sport', short: 'DCMS', assetPath: '', url: 'https://www.gov.uk/government/organisations/department-for-culture-media-and-sport' },
     { name: 'Foreign, Commonwealth & Development Office', short: 'FCDO', assetPath: '', url: 'https://www.gov.uk/government/organisations/foreign-commonwealth-development-office' },
     { name: 'National Youth Agency',   short: 'NYA',   assetPath: '', url: 'https://nya.org.uk/' },
-    { name: 'The Commonwealth',        short: 'CW',    assetPath: '', url: 'https://thecommonwealth.org/' }
+    { name: 'The Commonwealth',        short: 'CW',    assetPath: '', url: 'https://thecommonwealth.org/' },
+    { name: 'CHOGM Antigua and Barbuda 2026', short: 'CHOGM', assetPath: 'assets/img/logos/chogm-2026.png', url: '' }
   ],
 
   /* Partner organisations without an `assetPath` above are shown as a plain
@@ -130,16 +131,6 @@ const CONFIG = {
         src: 'assets/img/work/chogm-reception.jpg',
         alt: 'A large group of Commonwealth youth delegates in front of a CHOGM backdrop at a reception.',
         caption: 'Commonwealth youth delegates at a CHOGM reception'
-      },
-      {
-        src: 'assets/img/work/commonwealth-high-level-meeting.jpg',
-        alt: 'A panel at a Commonwealth high-level meeting, with a Commonwealth Secretary-General nameplate on the desk.',
-        caption: 'A Commonwealth high-level meeting'
-      },
-      {
-        src: 'assets/img/work/speaking-at-commonwealth-meeting.jpg',
-        alt: 'A delegate speaking into a microphone at a table, with Commonwealth member state flags behind.',
-        caption: 'Speaking on behalf of UK young people at a Commonwealth meeting'
       },
       {
         src: 'assets/img/work/for-youth-rights.jpg',
