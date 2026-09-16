@@ -324,14 +324,58 @@ a:hover { color: var(--accent); }
 .link-card__cue { font-size: var(--step--1); font-weight: 600; color: var(--accent-deep); margin-top: auto; }
 @media (prefers-reduced-motion: reduce) { .link-card:hover { transform: none; } }
 
-/* Photographs of the delegation's work */
-.shots { display: grid; gap: var(--sp-5); grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-.shot { margin: 0; }
-.shot img {
-  width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block;
-  border-radius: var(--radius-lg); background: var(--surface-2); border: 1px solid var(--rule);
+/* Photographs of the delegation's work, as a carousel ----------------------
+   Built on scroll-snap rather than a transform track: swipe, trackpad and
+   keyboard scrolling all work natively, the buttons just call scrollTo, and
+   with JavaScript unavailable it degrades to a scrollable row of photos. */
+.section--compact { padding-block: var(--sp-6); }
+
+.carousel { position: relative; max-width: 900px; margin-inline: auto; }
+.carousel__viewport {
+  display: flex; gap: var(--sp-4);
+  overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  border-radius: var(--radius-lg);
+  /* Hide the scrollbar — the dots and buttons carry the affordance. */
+  scrollbar-width: none; -ms-overflow-style: none;
 }
-.shot figcaption { margin-top: var(--sp-3); font-size: var(--step--1); color: var(--ink-2); }
+.carousel__viewport::-webkit-scrollbar { display: none; }
+.carousel__viewport:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) { .carousel__viewport { scroll-behavior: auto; } }
+
+.shot { margin: 0; flex: 0 0 100%; scroll-snap-align: center; }
+.shot img {
+  width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: center; display: block;
+  border-radius: var(--radius-lg); background: var(--surface-sunk); border: 1px solid var(--rule);
+}
+/* Photographs vary from portrait to wide, so any one that crops badly can set
+   its own focal point with `focus` in config.js (e.g. 'center 25%'). */
+
+/* Previous / next, sitting over the photo edges */
+.carousel__nav {
+  position: absolute; top: calc(50% - 28px); transform: translateY(-50%);
+  display: grid; place-items: center; width: 44px; height: 44px; z-index: 2;
+  border: 1px solid var(--rule); border-radius: 50%; cursor: pointer;
+  background: var(--surface); color: var(--ink); box-shadow: var(--shadow);
+  transition: background .15s, opacity .15s;
+}
+.carousel__nav:hover { background: var(--surface-2); }
+.carousel__nav--prev { left: var(--sp-3); }
+.carousel__nav--next { right: var(--sp-3); }
+.carousel__nav[disabled] { opacity: .35; cursor: default; }
+@media (max-width: 560px) { .carousel__nav { width: 38px; height: 38px; } }
+
+.carousel__foot {
+  display: flex; flex-wrap: wrap; gap: var(--sp-3) var(--sp-4);
+  align-items: center; justify-content: space-between; margin-top: var(--sp-3);
+}
+.carousel__caption { margin: 0; font-size: var(--step--1); color: var(--ink-2); }
+.carousel__dots { display: flex; gap: var(--sp-2); margin-left: auto; }
+.carousel__dot {
+  width: 9px; height: 9px; padding: 0; border-radius: 50%; cursor: pointer;
+  border: 0; background: var(--axis); transition: background .15s, transform .15s;
+}
+.carousel__dot:hover { background: var(--ink-muted); }
+.carousel__dot[aria-current="true"] { background: var(--accent); transform: scale(1.25); }
 
 /* Partner strip */
 .partners { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: stretch; }

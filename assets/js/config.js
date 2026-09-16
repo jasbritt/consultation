@@ -110,19 +110,48 @@ const CONFIG = {
         blurb: 'The national youth voice structure we work alongside across the four nations.' }
     ],
 
-    /* Photographs of the delegation's work. Drop the files into
-       assets/img/work/ and add a row here; any entry whose file is missing is
-       removed from the page rather than shown broken. */
+    /* Photographs of the delegation's work, shown as a carousel under the hero.
+       Drop the files into assets/img/work/ and add a row here; any entry whose
+       file is missing is removed from the carousel rather than shown broken.
+       Photos are cropped to a wide frame — if one crops badly, give it a
+       `focus` (any CSS object-position, e.g. 'center 25%' to favour the top). */
     gallery: [
-      {
-        src: 'assets/img/work/chogm-reception.jpg',
-        alt: 'Commonwealth youth delegates gathered in front of a CHOGM backdrop at a reception.',
-        caption: 'Commonwealth youth delegates at a CHOGM reception.'
-      },
       {
         src: 'assets/img/work/commonwealth-youth-forum-samoa.jpg',
         alt: 'Delegates in front of the Commonwealth Youth Forum banner in Apia, Samoa.',
-        caption: 'At the Commonwealth Youth Forum, Apia, Samoa, October 2024.'
+        caption: 'Commonwealth Youth Forum, Apia, Samoa, October 2024',
+        focus: 'center 30%'
+      },
+      {
+        src: 'assets/img/work/youth-forum-opening-samoa.jpg',
+        alt: 'Delegates carried on a decorated traditional canoe across the water at the opening of the Commonwealth Youth Forum.',
+        caption: 'Arriving at the opening of the Commonwealth Youth Forum, Samoa'
+      },
+      {
+        src: 'assets/img/work/chogm-reception.jpg',
+        alt: 'Commonwealth youth delegates gathered in front of a CHOGM backdrop at a reception.',
+        caption: 'Commonwealth youth delegates at a CHOGM reception'
+      },
+      {
+        src: 'assets/img/work/commonwealth-secretary-general.jpg',
+        alt: 'A panel at a Commonwealth high-level meeting, with a Commonwealth Secretary-General nameplate on the desk.',
+        caption: 'A Commonwealth high-level meeting'
+      },
+      {
+        src: 'assets/img/work/commonwealth-meeting-speaking.jpg',
+        alt: 'A delegate speaking into a microphone in front of a row of Commonwealth member state flags.',
+        caption: 'Speaking on behalf of UK young people at a Commonwealth meeting'
+      },
+      {
+        src: 'assets/img/work/for-youth-rights.jpg',
+        alt: 'Three young people holding an orange flag reading "for youth rights".',
+        caption: 'Campaigning for youth rights'
+      },
+      {
+        src: 'assets/img/work/cop27-sharm-el-sheikh.jpg',
+        alt: 'Two delegates in front of the COP27 sign at Sharm El-Sheikh, Egypt.',
+        caption: 'COP27, Sharm El-Sheikh, Egypt, 2022',
+        focus: 'center 35%'
       }
     ]
   },

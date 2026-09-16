@@ -61,7 +61,8 @@ results page to pull every figure out as a CSV for writing up.
 
 The site expects five image files. Any that are missing degrade gracefully — the
 header falls back to a lettermark, a member without a photo gets an initials
-avatar, and the photo section removes itself entirely — so nothing ever renders
+avatar, and a carousel photo that fails to load drops out of the carousel (with
+the whole section removing itself if none load) — so nothing ever renders
 broken.
 
 | Path | What it is |
@@ -69,8 +70,17 @@ broken.
 | `assets/img/logos/ukya-logo.png` | The UKYA logo, used in the header and the partner strip |
 | `assets/img/team/jasmine-brittan.jpg` | Team photo |
 | `assets/img/team/falak-raja.jpg` | Team photo |
-| `assets/img/work/chogm-reception.jpg` | Photograph of the delegation's work |
-| `assets/img/work/commonwealth-youth-forum-samoa.jpg` | Photograph of the delegation's work |
+| `assets/img/work/commonwealth-youth-forum-samoa.jpg` | Carousel photo |
+| `assets/img/work/youth-forum-opening-samoa.jpg` | Carousel photo |
+| `assets/img/work/chogm-reception.jpg` | Carousel photo |
+| `assets/img/work/commonwealth-secretary-general.jpg` | Carousel photo |
+| `assets/img/work/commonwealth-meeting-speaking.jpg` | Carousel photo |
+| `assets/img/work/for-youth-rights.jpg` | Carousel photo |
+| `assets/img/work/cop27-sharm-el-sheikh.jpg` | Carousel photo |
+
+The carousel crops to a wide frame. If a photo crops badly — a portrait one, for
+instance — give its entry a `focus` in `config.js` (any CSS `object-position`,
+such as `'center 25%'` to favour the top of the image).
 
 If your files are a different format, either rename them to match or change the
 paths in `assets/js/config.js` (`brand.logo`, `team.members[].photo`,
