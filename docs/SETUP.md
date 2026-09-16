@@ -65,8 +65,13 @@ In `assets/js/config.js`:
 
 - `consultation` — dates, contact address, response target. Confirm the CHOGM
   host and dates before describing them anywhere on the site.
-- `team.members` — the real delegation. Names, roles, nations, a sentence each.
+- `team.members` — the delegation. Name, role, photo path and a sentence each.
+- `team.gallery` — photographs of the delegation's work, with captions.
 - `privacy` — the data controller's name and a real contact address.
+
+Images go in `assets/img/` — see the table in the README for the paths the site
+looks for. Anything missing degrades to a lettermark, an initials avatar, or a
+hidden section, so a missing file never renders broken.
 
 ## 4. Logos — read this before adding any
 
@@ -113,9 +118,7 @@ controller must review it. Pay particular attention to:
 2. Open `results.html`. Your answer should appear in the totals and on the map.
 3. Open the **Diagnostics** panel at the bottom of the results page. Every
    question should be matched to a column and nothing should be listed as unused.
-4. Open `report.html` and print to PDF. Check the charts are full width and that
-   nothing is cut off.
-5. Delete your test row from the spreadsheet.
+4. Delete your test row from the spreadsheet.
 
 If a rating column shows as unmatched, the wording in the form has drifted from
 `assets/js/taxonomy.js`. Run `node scripts/check-taxonomy.js` to see exactly

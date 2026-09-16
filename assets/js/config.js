@@ -14,7 +14,15 @@ const CONFIG = {
     opensOn: '2026-09-15',
     closesOn: '2026-12-12',
     targetResponses: 2000,
-    contactEmail: 'youngambassadors@example.org'
+    contactEmail: 'ukyoungambassadors@gmail.com'
+  },
+
+  /* --- Brand ---------------------------------------------------------------
+     The header mark. If the file is missing the site falls back to a plain
+     "UKYA" lettermark, so a broken path never leaves a gap in the header. */
+  brand: {
+    logo: 'assets/img/logos/ukya-logo.png',
+    logoAlt: 'UK Young Ambassadors'
   },
 
   /* --- The Google Form ----------------------------------------------------
@@ -56,39 +64,73 @@ const CONFIG = {
      assets/img/logos/ and point `assetPath` at it once you have written
      permission to use that organisation's identity.                          */
   partners: [
-    { name: 'UK Young Ambassadors',    short: 'UKYA',  assetPath: '', url: '' },
-    { name: 'UK Youth Council',        short: 'UKYC',  assetPath: '', url: '' },
+    { name: 'UK Young Ambassadors',    short: 'UKYA',  assetPath: 'assets/img/logos/ukya-logo.png', url: 'https://nya.org.uk/ukya/' },
+    { name: 'Youth Council UK',        short: 'YCUK',  assetPath: '', url: 'https://nya.org.uk/youth-council-uk/' },
     { name: 'Department for Culture, Media and Sport', short: 'DCMS', assetPath: '', url: 'https://www.gov.uk/government/organisations/department-for-culture-media-and-sport' },
     { name: 'Foreign, Commonwealth & Development Office', short: 'FCDO', assetPath: '', url: 'https://www.gov.uk/government/organisations/foreign-commonwealth-development-office' },
     { name: 'National Youth Agency',   short: 'NYA',   assetPath: '', url: 'https://nya.org.uk/' },
     { name: 'The Commonwealth',        short: 'CW',    assetPath: '', url: 'https://thecommonwealth.org/' }
   ],
 
-  /* Set to false once every partner above has approved their inclusion and you
-     have replaced the placeholder plates with official assets. While true, the
-     site carries a visible "draft — branding not yet approved" notice so nobody
-     can mistake a work in progress for an endorsed government product.        */
-  draftMode: true,
+  /* Partner organisations without an `assetPath` above are shown as a plain
+     text name plate rather than a logo. Add an organisation's official asset
+     only once you have its permission to use its identity.                    */
+  draftMode: false,
 
   /* --- The team ------------------------------------------------------------
-     Replace with the real UK Young Ambassadors delegation. `role` is optional. */
+     `photo` is optional — a member without one gets an initials avatar, so the
+     page never shows a broken image.                                          */
   team: {
     intro:
       'We are the UK Young Ambassadors: a delegation of young people elected and ' +
       'selected to represent young people from across the four nations of the ' +
       'United Kingdom in international spaces, including the Commonwealth.',
     members: [
-      { name: 'Add a name', role: 'UK Young Ambassador', nation: 'England',          bio: 'Replace this placeholder in assets/js/config.js.' },
-      { name: 'Add a name', role: 'UK Young Ambassador', nation: 'Scotland',         bio: 'Replace this placeholder in assets/js/config.js.' },
-      { name: 'Add a name', role: 'UK Young Ambassador', nation: 'Wales',            bio: 'Replace this placeholder in assets/js/config.js.' },
-      { name: 'Add a name', role: 'UK Young Ambassador', nation: 'Northern Ireland', bio: 'Replace this placeholder in assets/js/config.js.' }
+      {
+        name: 'Jasmine Brittan',
+        role: 'UK Young Ambassador to the Commonwealth',
+        photo: 'assets/img/team/jasmine-brittan.jpg',
+        bio: 'Represents young people from across the United Kingdom in Commonwealth ' +
+             'decision-making spaces, and is leading this consultation.'
+      },
+      {
+        name: 'Falak Raja',
+        role: 'UK Young Ambassador to the Commonwealth',
+        photo: 'assets/img/team/falak-raja.jpg',
+        bio: 'Represents young people from across the United Kingdom in Commonwealth ' +
+             'decision-making spaces.'
+      }
+    ],
+
+    /* Links shown under the team, describing the wider programme. */
+    links: [
+      { label: 'UK Young Ambassadors', url: 'https://nya.org.uk/ukya/',
+        blurb: 'The programme we are part of, run by the National Youth Agency.' },
+      { label: 'Youth Council UK', url: 'https://nya.org.uk/youth-council-uk/',
+        blurb: 'The national youth voice structure we work alongside across the four nations.' }
+    ],
+
+    /* Photographs of the delegation's work. Drop the files into
+       assets/img/work/ and add a row here; any entry whose file is missing is
+       removed from the page rather than shown broken. */
+    gallery: [
+      {
+        src: 'assets/img/work/chogm-reception.jpg',
+        alt: 'Commonwealth youth delegates gathered in front of a CHOGM backdrop at a reception.',
+        caption: 'Commonwealth youth delegates at a CHOGM reception.'
+      },
+      {
+        src: 'assets/img/work/commonwealth-youth-forum-samoa.jpg',
+        alt: 'Delegates in front of the Commonwealth Youth Forum banner in Apia, Samoa.',
+        caption: 'At the Commonwealth Youth Forum, Apia, Samoa, October 2024.'
+      }
     ]
   },
 
   /* --- Data protection ----------------------------------------------------- */
   privacy: {
     controller: 'UK Young Ambassadors',
-    dpoEmail: 'dataprotection@example.org',
+    dpoEmail: 'ukyoungambassadors@gmail.com',
     retentionMonths: 24,
     privacyNoticeUrl: 'privacy.html'
   }

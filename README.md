@@ -1,9 +1,8 @@
 # UK Youth Consultation for CHOGM
 
 A consultation platform for the UK Young Ambassadors: a public website with an
-embedded Google Form, a live results dashboard with maps and charts, and a report
-page that writes itself from the response data and prints to PDF for submission
-to government.
+embedded Google Form and a live results dashboard with maps and charts, built to
+gather young people's priorities for the UK and the Commonwealth.
 
 Plain HTML, CSS and JavaScript. **No build step, no dependencies, no server.**
 Anything that serves static files will host it.
@@ -17,7 +16,6 @@ Anything that serves static files will host it.
 | `index.html` | Who the delegation is, why the consultation exists, what happens to responses |
 | `consultation.html` | The embedded Google Form, plus every question published up front |
 | `results.html` | Live dashboard — response map, ratings, priority gap, filters, data download |
-| `report.html` | The report to government, generated from the data, printable as a PDF |
 | `privacy.html` | Data protection notice (a template — have it reviewed) |
 
 ## The questions
@@ -56,8 +54,27 @@ department can act on:
 - **Horizon split** = long-term importance − short-term urgency.
   Separates crises to manage from where preventative investment belongs.
 
-Both are computed in `assets/js/data.js`, which feeds the dashboard and the
-report alike, so the two can never disagree.
+Both are computed in `assets/js/data.js`. Use **Download aggregates** on the
+results page to pull every figure out as a CSV for writing up.
+
+## Images
+
+The site expects five image files. Any that are missing degrade gracefully — the
+header falls back to a lettermark, a member without a photo gets an initials
+avatar, and the photo section removes itself entirely — so nothing ever renders
+broken.
+
+| Path | What it is |
+| --- | --- |
+| `assets/img/logos/ukya-logo.png` | The UKYA logo, used in the header and the partner strip |
+| `assets/img/team/jasmine-brittan.jpg` | Team photo |
+| `assets/img/team/falak-raja.jpg` | Team photo |
+| `assets/img/work/chogm-reception.jpg` | Photograph of the delegation's work |
+| `assets/img/work/commonwealth-youth-forum-samoa.jpg` | Photograph of the delegation's work |
+
+If your files are a different format, either rename them to match or change the
+paths in `assets/js/config.js` (`brand.logo`, `team.members[].photo`,
+`team.gallery[].src`).
 
 ## Getting started
 
@@ -89,7 +106,7 @@ It needs reviewing by whoever is acting as data controller.
 ## Project layout
 
 ```
-index.html  consultation.html  results.html  report.html  privacy.html
+index.html  consultation.html  results.html  privacy.html
 assets/
   css/site.css            design tokens, light and dark
   css/print.css           PDF and paper output
@@ -100,7 +117,6 @@ assets/
   js/charts.js            SVG chart library (bar, diverging, dumbbell, scatter)
   js/map.js               UK tile cartogram
   js/results.js           the dashboard
-  js/report.js            the report writer
   data/sample-responses.csv   synthetic — delete before going live
 form/
   create-form.gs          builds the whole Google Form in one run
@@ -136,10 +152,10 @@ node scripts/check-data.js ~/Downloads/responses.csv
 
 ## Design notes
 
-- **Charts are hand-written SVG**, not a library. The report is printed to PDF
-  and the same marks have to survive dark mode and a black-and-white printer, so
-  the mark specs (≤24px bars, 4px rounded data-ends, 2px surface gaps, hairline
-  grid) are held exactly, and there is no CDN to depend on.
+- **Charts are hand-written SVG**, not a library. The same marks have to survive
+  dark mode and a black-and-white printer, so the mark specs (≤24px bars, 4px
+  rounded data-ends, 2px surface gaps, hairline grid) are held exactly, and there
+  is no CDN to depend on.
 - **Colour follows the data's job**: one hue light-to-dark for magnitude on the
   map, two hues either side of a neutral zero for the priority gap, a fixed
   categorical order everywhere else. Every chart has a table view, so identity is

@@ -8,49 +8,9 @@
   const CONFIG = window.CONFIG;
 
   /* ---------- theme -------------------------------------------------------
-     Three states: explicit light, explicit dark, or follow the operating
-     system. The toggle cycles through them and charts redraw on 'themechange'
-     because their colours come from CSS custom properties.                   */
-  const STORE_KEY = 'chogm:theme';
-
-  function storedTheme() {
-    try { return localStorage.getItem(STORE_KEY); } catch (e) { return null; }
-  }
-  function applyTheme(value) {
-    if (value === 'light' || value === 'dark') document.documentElement.setAttribute('data-theme', value);
-    else document.documentElement.removeAttribute('data-theme');
-    document.dispatchEvent(new CustomEvent('themechange'));
-  }
-  function currentMode() {
-    const stored = storedTheme();
-    if (stored) return stored;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  }
-
-  applyTheme(storedTheme());
-
-  function initThemeToggle() {
-    const btn = document.querySelector('[data-theme-toggle]');
-    if (!btn) return;
-    const paint = () => {
-      const dark = currentMode() === 'dark';
-      btn.innerHTML = dark
-        ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
-        : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
-      btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
-      btn.setAttribute('title', btn.getAttribute('aria-label'));
-    };
-    paint();
-    btn.addEventListener('click', () => {
-      const next = currentMode() === 'dark' ? 'light' : 'dark';
-      try { localStorage.setItem(STORE_KEY, next); } catch (e) { /* private mode: session only */ }
-      applyTheme(next);
-      paint();
-    });
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-      if (!storedTheme()) { applyTheme(null); paint(); }
-    });
-  }
+     There is no in-page theme control. The stylesheet still honours the
+     viewer's operating-system light/dark preference through
+     prefers-color-scheme, which needs no JavaScript.                         */
 
   /* ---------- navigation --------------------------------------------------- */
   function initNav() {
@@ -97,6 +57,25 @@
     document.querySelectorAll('[data-year]').forEach(n => { n.textContent = new Date().getFullYear(); });
   }
 
+  /* ---------- header logo -------------------------------------------------
+     Swaps the lettermark for the real logo where one is configured. If the
+     file 404s the image removes itself and the lettermark stays, so a missing
+     asset degrades to the old header rather than to a broken image icon.     */
+  function renderLogo() {
+    const brand = CONFIG.brand || {};
+    if (!brand.logo) return;
+    document.querySelectorAll('[data-brand-crest]').forEach(host => {
+      const img = new Image();
+      img.src = brand.logo;
+      img.alt = '';
+      img.onload = () => {
+        host.classList.add('brandmark__crest--image');
+        host.textContent = '';
+        host.appendChild(img);
+      };
+    });
+  }
+
   /* ---------- partner strip ------------------------------------------------
      Renders an official asset when config points at one, and a neutral
      typographic plate when it does not. The plate is deliberately not a
@@ -105,57 +84,93 @@
   function renderPartners() {
     const host = document.querySelector('[data-partners]');
     if (!host) return;
+    /* A configured logo that fails to load falls back to the name plate, so a
+       wrong path shows the organisation's name rather than a broken image. */
+    const plate = p =>
+      `<span class="partner__plate"><span class="partner__short">${p.short}</span>` +
+      `<span class="partner__name">${p.name}</span></span>`;
+
     host.innerHTML = CONFIG.partners.map(p => {
       const inner = p.assetPath
-        ? `<img src="${p.assetPath}" alt="${p.name}">`
-        : `<span class="partner__plate"><span class="partner__short">${p.short}</span>
-             <span class="partner__name">${p.name}</span></span>`;
+        ? `<img src="${p.assetPath}" alt="${p.name}" onerror="this.outerHTML=${
+             JSON.stringify(plate(p)).replace(/"/g, '&quot;')}">`
+        : plate(p);
       return p.url
         ? `<a class="partner" href="${p.url}" rel="noopener">${inner}</a>`
         : `<div class="partner">${inner}</div>`;
     }).join('');
   }
 
-  function renderDraftNotice() {
-    document.querySelectorAll('[data-draft-notice]').forEach(host => {
-      if (!CONFIG.draftMode) { host.remove(); return; }
-      host.innerHTML =
-        `<div class="notice notice--draft" role="note">
-           <span class="notice__icon" aria-hidden="true">⚠</span>
-           <p><strong>Draft — not yet an approved publication.</strong> Organisation names are shown as
-           placeholders while permission to use each identity is sought. No endorsement by any government
-           department or partner organisation is implied. Set <code>draftMode: false</code> in
-           <code>assets/js/config.js</code> once approvals and official assets are in place.</p>
-         </div>`;
-    });
-  }
-
   function renderTeam() {
     const host = document.querySelector('[data-team]');
     if (!host) return;
     const initials = name => name.split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+
     host.innerHTML = CONFIG.team.members.map(m => `
       <div class="card person">
-        <span class="person__avatar" aria-hidden="true">${initials(m.name)}</span>
+        ${m.photo
+          ? `<img class="person__photo" src="${m.photo}" alt="${m.name}" loading="lazy"
+                  onerror="this.replaceWith(Object.assign(document.createElement('span'),
+                           {className:'person__avatar', textContent:'${initials(m.name)}'}))">`
+          : `<span class="person__avatar" aria-hidden="true">${initials(m.name)}</span>`}
         <div>
           <div class="person__name">${m.name}</div>
-          <div class="person__role">${[m.role, m.nation].filter(Boolean).join(' · ')}</div>
+          <div class="person__role">${m.role || ''}</div>
         </div>
         <p>${m.bio || ''}</p>
       </div>`).join('');
+
+    const linkHost = document.querySelector('[data-team-links]');
+    if (linkHost && CONFIG.team.links) {
+      linkHost.innerHTML = CONFIG.team.links.map(l => `
+        <a class="card link-card" href="${l.url}" rel="noopener" target="_blank">
+          <span class="link-card__label">${l.label}</span>
+          <span class="link-card__blurb">${l.blurb}</span>
+          <span class="link-card__cue" aria-hidden="true">Visit →</span>
+        </a>`).join('');
+    }
+  }
+
+  /* ---------- photographs of the delegation's work ------------------------
+     Each figure hides itself if its file is missing, and the whole section
+     hides if none of them load — so an empty assets/img/work/ folder leaves
+     no trace on the page.                                                    */
+  function renderGallery() {
+    const host = document.querySelector('[data-gallery]');
+    if (!host) return;
+    const items = (CONFIG.team.gallery || []);
+    if (!items.length) { host.closest('[data-gallery-section]')?.remove(); return; }
+
+    host.innerHTML = items.map(g => `
+      <figure class="shot" data-shot>
+        <img src="${g.src}" alt="${g.alt || ''}" loading="lazy">
+        <figcaption>${g.caption || ''}</figcaption>
+      </figure>`).join('');
+
+    let loaded = 0, settled = 0;
+    const done = () => {
+      if (++settled === items.length && loaded === 0) {
+        host.closest('[data-gallery-section]')?.remove();
+      }
+    };
+    host.querySelectorAll('[data-shot] img').forEach(img => {
+      img.addEventListener('load', () => { loaded++; done(); });
+      img.addEventListener('error', () => { img.closest('[data-shot]').remove(); done(); });
+      if (img.complete && img.naturalWidth) { loaded++; settled++; }
+    });
   }
 
   /* ---------- go ----------------------------------------------------------- */
   function init() {
-    initThemeToggle();
     initNav();
     fillConfigText();
     renderPartners();
-    renderDraftNotice();
+    renderLogo();
     renderTeam();
+    renderGallery();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 
-  window.UI = { applyTheme, currentMode, fmtDate };
+  window.UI = { fmtDate };
 })();

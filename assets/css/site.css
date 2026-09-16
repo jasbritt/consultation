@@ -150,8 +150,11 @@ a:hover { color: var(--accent); }
 .brandmark__crest {
   display: grid; place-items: center; width: 40px; height: 40px; flex: none;
   border-radius: 9px; background: var(--brand-ink); color: var(--brand);
-  font-weight: 750; font-size: .82rem; letter-spacing: .02em;
+  font-weight: 750; font-size: .82rem; letter-spacing: .02em; overflow: hidden;
 }
+/* Once the real logo loads, the white plate and padding get out of its way. */
+.brandmark__crest--image { background: transparent; width: 46px; height: 46px; border-radius: 8px; }
+.brandmark__crest--image img { width: 100%; height: 100%; object-fit: contain; }
 .brandmark__text { display: flex; flex-direction: column; line-height: 1.2; }
 .brandmark__name { font-weight: 650; font-size: .98rem; letter-spacing: -.01em; }
 .brandmark__sub { font-size: .74rem; color: rgba(255,255,255,.72); letter-spacing: .04em; text-transform: uppercase; }
@@ -301,6 +304,34 @@ a:hover { color: var(--accent); }
 .person__name { font-weight: 650; }
 .person__role { font-size: var(--step--1); color: var(--ink-muted); }
 .person p { font-size: var(--step--1); color: var(--ink-2); margin: 0; }
+
+/* A member photograph sits where the initials avatar would. Square crop, so a
+   portrait and a headshot of different proportions still line up in the grid. */
+.person__photo {
+  width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 22%;
+  border-radius: var(--radius); background: var(--surface-2); display: block;
+}
+.person__avatar--fallback { width: 52px; height: 52px; }
+
+/* Link cards — the wider-programme links under the team */
+.link-card {
+  display: flex; flex-direction: column; gap: var(--sp-2);
+  text-decoration: none; color: inherit; transition: border-color .15s, transform .15s;
+}
+.link-card:hover { border-color: var(--accent); color: inherit; transform: translateY(-2px); }
+.link-card__label { font-weight: 650; font-size: var(--step-1); letter-spacing: -.015em; }
+.link-card__blurb { font-size: var(--step--1); color: var(--ink-2); }
+.link-card__cue { font-size: var(--step--1); font-weight: 600; color: var(--accent-deep); margin-top: auto; }
+@media (prefers-reduced-motion: reduce) { .link-card:hover { transform: none; } }
+
+/* Photographs of the delegation's work */
+.shots { display: grid; gap: var(--sp-5); grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.shot { margin: 0; }
+.shot img {
+  width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block;
+  border-radius: var(--radius-lg); background: var(--surface-2); border: 1px solid var(--rule);
+}
+.shot figcaption { margin-top: var(--sp-3); font-size: var(--step--1); color: var(--ink-2); }
 
 /* Partner strip */
 .partners { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: stretch; }
