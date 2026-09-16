@@ -91,8 +91,12 @@
       `<span class="partner__name">${p.name}</span></span>`;
 
     host.innerHTML = CONFIG.partners.map(p => {
+      /* `scale` (default 1) multiplies the shared size caps for one logo. */
+      const sized = p.scale && p.scale !== 1
+        ? ` style="max-height:${Math.round(68 * p.scale)}px;max-width:${Math.round(170 * p.scale)}px"`
+        : '';
       const inner = p.assetPath
-        ? `<img src="${p.assetPath}" alt="${p.name}" onerror="this.outerHTML=${
+        ? `<img src="${p.assetPath}" alt="${p.name}"${sized} onerror="this.outerHTML=${
              JSON.stringify(plate(p)).replace(/"/g, '&quot;')}">`
         : plate(p);
       return p.url

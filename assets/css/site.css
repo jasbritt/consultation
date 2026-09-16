@@ -415,16 +415,21 @@ a:hover { color: var(--accent); }
 }
 .partner {
   display: flex; align-items: center; justify-content: center; text-align: center;
-  flex: 0 1 132px; min-height: 84px; padding: var(--sp-2);
+  flex: 0 0 auto; min-height: 84px; padding: var(--sp-2);
   background: none; border: 0; border-radius: 0;
   color: #52514e; text-decoration: none;
 }
 .partner:hover { color: #0b0b0b; }
-/* Capped on both axes so a wide mark cannot tower over a square one. */
+/* Each logo is sized by its own aspect ratio inside a shared height and width
+   cap, rather than squeezed into an identical box. A square mark reaches the
+   height limit, a wide lockup reaches the width limit, and neither ends up
+   tiny next to the other. Individual marks can be nudged with `scale` in
+   config.js where the optical weight still looks off. */
 .partner img {
-  max-height: 68px; max-width: 100%; width: auto; height: auto;
+  max-height: 68px; max-width: 170px; width: auto; height: auto;
   object-fit: contain;
 }
+@media (max-width: 560px) { .partner img { max-height: 56px; max-width: 140px; } }
 /* Shown only until an organisation's official asset is in place. */
 .partner__plate { display: flex; flex-direction: column; gap: 3px; }
 .partner__short { font-weight: 700; font-size: 1.05rem; letter-spacing: .04em; color: #0b0b0b; }

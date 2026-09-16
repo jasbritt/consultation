@@ -66,12 +66,16 @@ const CONFIG = {
      `assetPath` is empty by default and the site renders a typographic
      placeholder plate instead of a logo. Drop an official SVG or PNG into
      assets/img/logos/ and point `assetPath` at it once you have written
-     permission to use that organisation's identity.                          */
+     permission to use that organisation's identity.
+
+     Each logo is sized by its own aspect ratio inside a shared cap. `scale`
+     (default 1) nudges one mark up or down where a source file carries a lot
+     of internal whitespace and reads small beside the others.               */
   partners: [
     { name: 'UK Young Ambassadors',    short: 'UKYA',  assetPath: 'assets/img/logos/ukya-logo.png', url: 'https://nya.org.uk/ukya/' },
     { name: 'Youth Council UK',        short: 'YCUK',  assetPath: 'assets/img/logos/youth-council.jpeg', url: 'https://nya.org.uk/youth-council-uk/' },
     { name: 'Department for Culture, Media and Sport', short: 'DCMS', assetPath: 'assets/img/logos/dcms.svg', url: 'https://www.gov.uk/government/organisations/department-for-culture-media-and-sport' },
-    { name: 'Foreign, Commonwealth & Development Office', short: 'FCDO', assetPath: 'assets/img/logos/fcdo.png', url: 'https://www.gov.uk/government/organisations/foreign-commonwealth-development-office' },
+    { name: 'Foreign, Commonwealth & Development Office', short: 'FCDO', assetPath: 'assets/img/logos/fcdo.png', scale: 1.25, url: 'https://www.gov.uk/government/organisations/foreign-commonwealth-development-office' },
     { name: 'National Youth Agency',   short: 'NYA',   assetPath: 'assets/img/logos/NYA_Logo.png', url: 'https://nya.org.uk/' },
     { name: 'The Commonwealth',        short: 'CW',    assetPath: 'assets/img/logos/CW.jpg', url: 'https://thecommonwealth.org/' },
     { name: 'CHOGM Antigua and Barbuda 2026', short: 'CHOGM', assetPath: 'assets/img/logos/chogm-2026.png', url: '' }
