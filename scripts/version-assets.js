@@ -30,11 +30,12 @@ pages.forEach(page => {
   const file = path.join(ROOT, page);
   let html = fs.readFileSync(file, 'utf8');
 
-  /* Matches href="assets/…css", src="assets/…js" and the icon links, with or
-     without an existing ?v= stamp, and leaves anything remote alone. Icons
-     matter here too: browsers cache a favicon hard, so without a new URL the
-     old one can sit in the tab indefinitely. */
-  html = html.replace(/(href|src)="(assets\/[^"?#]+\.(?:css|js|png|svg|ico|jpg|jpeg))(\?v=[a-f0-9]+)?"/g,
+  /* Matches href="assets/…css" and src="assets/…js", with or without an
+     existing ?v= stamp, and leaves anything remote alone. Icons are
+     deliberately excluded: a browser keys its favicon cache by site rather
+     than by URL, so a stamp buys nothing, and Safari has been known not to
+     fetch an icon that carries a query string at all. */
+  html = html.replace(/(href|src)="(assets\/[^"?#]+\.(?:css|js))(\?v=[a-f0-9]+)?"/g,
     (whole, attr, assetPath) => {
       const onDisk = path.join(ROOT, assetPath);
       if (!fs.existsSync(onDisk)) { missing.push(`${page} -> ${assetPath}`); return whole; }
