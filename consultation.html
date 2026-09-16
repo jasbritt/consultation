@@ -41,89 +41,53 @@
       <span class="eyebrow">The consultation</span>
       <h1 style="font-size:var(--step-3)">Tell us what should change</h1>
       <p class="lede">
-        Five sections, about <span data-config="form.estimatedMinutes">9</span> minutes, no name required.
         Open to anyone aged 13–25 living in the UK.
-        Closes <span data-config="consultation.closesOn" data-format="date">—</span>.
+        Closes on <span data-config="consultation.closesOn" data-format="date-ordinal">—</span>.
       </p>
     </div>
   </section>
 
   <section class="section" style="padding-top:var(--sp-6)">
     <div class="wrap">
+      <p class="muted" style="margin-bottom:var(--sp-4)" id="form-fallback" hidden>
+        Having trouble with the embedded form?
+        <a id="form-direct-link" href="#" rel="noopener">Open it in a new tab instead</a>.
+      </p>
       <!-- The Google Form is embedded here. Until config.form.embedUrl is set,
            setup instructions render in its place. -->
       <div id="form-host" class="form-shell">
         <div class="empty-state">Loading the form…</div>
       </div>
-      <p class="muted" style="margin-top:var(--sp-4)" id="form-fallback" hidden>
-        Having trouble with the embedded form?
-        <a id="form-direct-link" href="#" rel="noopener">Open it in a new tab instead</a>.
-      </p>
     </div>
   </section>
 
   <section class="section section--tint">
     <div class="wrap">
       <div class="section__head">
-        <h2>The questions in full</h2>
-        <p>
-          Published up front so you can see exactly what is being asked and how it will be analysed before
-          you start. Nothing here is a trick question and there are no right answers.
-        </p>
+        <h2>What the survey covers</h2>
       </div>
-      <div class="qlist" id="question-preview"></div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap grid grid--2">
-      <div class="card">
-        <h3>Why we ask you to rate the same areas three times</h3>
-        <p>
-          Asking only “how important is this?” produces a list on which everything is important. So each of
-          the twelve policy areas is rated on three different things: <strong>how well it works today</strong>,
-          <strong>how much it matters to your long-term future</strong>, and <strong>how urgent it is right
-          now</strong>.
-        </p>
-        <p>
-          The useful number is the distance between them. An area rated critically important and barely
-          working is a delivery failure; one rated urgent but not important long term is a crisis to manage;
-          one rated important long term but not urgent is where prevention money should go. That analysis is
-          what makes the report usable by a department rather than just interesting.
-        </p>
+      <div class="grid grid--4 grid--ask">
+        <div class="card card--compact">
+          <h3>Bring it back</h3>
+          <p>What you want the government to reintroduce for young people.</p>
+        </div>
+        <div class="card card--compact">
+          <h3>The biggest problem</h3>
+          <p>What you think is the single biggest problem facing young people, at home and across the Commonwealth.</p>
+        </div>
+        <div class="card card--compact">
+          <h3>What is working</h3>
+          <p>How well each area of policy is working for young people right now.</p>
+        </div>
+        <div class="card card--compact">
+          <h3>What matters, and when</h3>
+          <p>Which areas matter most for your long-term future, and which are most urgent today.</p>
+        </div>
       </div>
-      <div class="card">
-        <h3>Your privacy</h3>
-        <p>
-          The form does not collect your name or email address, and does not record your Google account.
-          Demographic questions are optional and every one has a “prefer not to say” option.
-        </p>
-        <p>
-          Answers are reported only in aggregate. Free-text answers may be quoted in the published report,
-          with any identifying detail removed. Data is held by
-          <span data-config="privacy.controller">UK Young Ambassadors</span> for
-          <span data-config="privacy.retentionMonths">24</span> months and then deleted.
-        </p>
-        <p><a href="privacy.html">Read the full privacy notice</a>.</p>
-      </div>
-      <div class="card">
-        <h3>Other ways to take part</h3>
-        <p>
-          If you cannot use the online form — including if you are completing this as a group, a youth council
-          or a class — contact us and we will send a printable version and a facilitator’s guide, and enter the
-          responses for you.
-        </p>
-        <p><a data-config-href="consultation.contactEmail" href="#"><span data-config="consultation.contactEmail">Contact us</span></a></p>
-      </div>
-      <div class="card">
-        <h3>Running a session with young people?</h3>
-        <p>
-          The questions work well as a 45-minute workshop: use the “bring it back” and “biggest problem”
-          questions as discussion prompts, then have everyone complete the ratings individually so the
-          numbers stay independent of the loudest voice in the room.
-        </p>
-        <p>Ask us for the session plan and the slide deck.</p>
-      </div>
+      <p class="muted" style="margin-top:var(--sp-5)">
+        The form does not ask for your name or email address, and the demographic questions are optional.
+        <a href="privacy.html">Read the privacy notice</a>.
+      </p>
     </div>
   </section>
 </main>
@@ -137,9 +101,9 @@
   </div>
 </footer>
 
-<script src="assets/js/config.js?v=309900a1"></script>
+<script src="assets/js/config.js?v=e2bbb586"></script>
 <script src="assets/js/taxonomy.js?v=10c99e3c"></script>
-<script src="assets/js/ui.js?v=75c543f7"></script>
-<script src="assets/js/consultation.js?v=3a46aefd"></script>
+<script src="assets/js/ui.js?v=98122276"></script>
+<script src="assets/js/consultation.js?v=215674e1"></script>
 </body>
 </html>

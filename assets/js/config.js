@@ -12,7 +12,7 @@ const CONFIG = {
     /* Shown throughout the site. Confirm the host and dates before publishing. */
     chogmLabel: 'the next Commonwealth Heads of Government Meeting',
     opensOn: '2026-09-15',
-    closesOn: '2026-12-12',
+    closesOn: '2026-11-01',
     targetResponses: 2000,
     contactEmail: 'ukyoungambassadors@gmail.com'
   },
@@ -122,15 +122,15 @@ const CONFIG = {
        `focus` (any CSS object-position, e.g. 'center 25%' to favour the top). */
     gallery: [
       {
+        src: 'assets/img/work/chogm-reception.jpg',
+        alt: 'A large group of Commonwealth youth delegates in front of a CHOGM backdrop at a reception.',
+        caption: 'Commonwealth youth delegates at a CHOGM reception'
+      },
+      {
         src: 'assets/img/work/commonwealth-youth-forum-samoa.jpg',
         alt: 'Six delegates in front of the Commonwealth Youth Forum banner in Apia, Samoa.',
         caption: 'Commonwealth Youth Forum, Apia, Samoa, October 2024',
         focus: 'center 30%'
-      },
-      {
-        src: 'assets/img/work/chogm-reception.jpg',
-        alt: 'A large group of Commonwealth youth delegates in front of a CHOGM backdrop at a reception.',
-        caption: 'Commonwealth youth delegates at a CHOGM reception'
       },
       {
         src: 'assets/img/work/commonwealth-high-level-meeting.jpg',
@@ -138,24 +138,18 @@ const CONFIG = {
         caption: 'A Commonwealth high-level meeting'
       },
       {
-        src: 'assets/img/work/speaking-at-commonwealth-meeting.jpg',
-        alt: 'A delegate speaking into a microphone at a table, with Commonwealth member state flags behind.',
-        caption: 'Speaking on behalf of UK young people at a Commonwealth meeting'
-      },
-      {
         src: 'assets/img/work/cop27-sharm-el-sheikh.jpg',
         alt: 'Two delegates in front of the COP27 sign at Sharm El-Sheikh, Egypt.',
         caption: 'COP27, Sharm El-Sheikh, Egypt, 2022',
         focus: 'center 35%'
       }
-      /* Not in rotation:
-         - for-youth-rights.jpg, removed on request (the file is still in the repo).
-         - the canoe procession at the opening of the Commonwealth Youth Forum,
-           which has not been uploaded; put it at
-           assets/img/work/youth-forum-opening-samoa.jpg and add an entry here.
-         `caption` is no longer displayed — the hero shows no captions — but it
-         is read out to screen readers through each dot's label, so keep it
-         accurate. */
+      /* Not in rotation: speaking-at-commonwealth-meeting.jpg and
+         for-youth-rights.jpg, both too low-resolution for a full-width hero
+         (194x129 and 172x189), and the canoe procession at the Youth Forum
+         opening, which was never uploaded (it would go at
+         assets/img/work/youth-forum-opening-samoa.jpg). The files that exist
+         remain in the repository. `caption` is not displayed; it is read out
+         through each carousel dot's label, so keep it accurate. */
     ]
   },
 

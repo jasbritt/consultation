@@ -38,12 +38,24 @@
     const d = new Date(iso);
     return isNaN(d) ? iso : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
   };
+  /* "1st November 2026" rather than "1 November 2026", for prose that reads
+     better with the ordinal. Still driven by the date in config. */
+  const fmtDateOrdinal = iso => {
+    const d = new Date(iso);
+    if (isNaN(d)) return iso;
+    const n = d.getDate();
+    const suffix = (n % 10 === 1 && n !== 11) ? 'st'
+                 : (n % 10 === 2 && n !== 12) ? 'nd'
+                 : (n % 10 === 3 && n !== 13) ? 'rd' : 'th';
+    return `${n}${suffix} ${d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}`;
+  };
 
   function fillConfigText() {
     document.querySelectorAll('[data-config]').forEach(node => {
       const value = readPath(CONFIG, node.dataset.config);
       if (value === undefined || value === null || value === '') return;
       node.textContent = node.dataset.format === 'date' ? fmtDate(value)
+        : node.dataset.format === 'date-ordinal' ? fmtDateOrdinal(value)
         : node.dataset.format === 'number' ? Number(value).toLocaleString('en-GB')
         : value;
     });
@@ -238,5 +250,5 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 
-  window.UI = { fmtDate };
+  window.UI = { fmtDate, fmtDateOrdinal };
 })();
