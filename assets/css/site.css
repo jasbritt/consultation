@@ -389,6 +389,16 @@ a:hover { color: var(--accent); }
 .who__people .person__role { font-size: .78rem; line-height: 1.35; }
 .person__avatar--fallback { width: 52px; height: 52px; }
 
+/* A footnote that fills the width of the card row above it. One paragraph
+   would span the row but leave a short trailing line; splitting it across two
+   proportioned columns fills the band evenly instead. Stacks when narrow. */
+.note-row {
+  display: grid; grid-template-columns: 1fr 2fr; gap: var(--sp-4) var(--sp-6);
+  margin-top: var(--sp-5);
+}
+.note-row p { margin: 0; max-width: none; }
+@media (max-width: 760px) { .note-row { grid-template-columns: 1fr; } }
+
 /* Link cards — the wider-programme links under the team */
 .link-card {
   display: flex; flex-direction: column; gap: var(--sp-2);
