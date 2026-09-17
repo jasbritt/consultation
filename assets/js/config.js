@@ -33,8 +33,8 @@ const CONFIG = {
      Until embedUrl is set the consultation page shows the setup instructions
      instead of an empty grey box.                                            */
   form: {
-    embedUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdeFgnkACJoToeW_YFtPyAwqFRkYW4p0q-PypPwii--lEhPVg/viewform?embedded=true',
-    shareUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdeFgnkACJoToeW_YFtPyAwqFRkYW4p0q-PypPwii--lEhPVg/viewform',
+    embedUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdmbNCFVPFCOydNO0MC5a2Wo2Gq5MxXAaemmblesfwVoMIgZg/viewform?embedded=true',
+    shareUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdmbNCFVPFCOydNO0MC5a2Wo2Gq5MxXAaemmblesfwVoMIgZg/viewform',
     estimatedMinutes: 9
   },
 
@@ -52,9 +52,16 @@ const CONFIG = {
   data: {
     /* The responses sheet published to the web as CSV. This is a read-only
        published link, not the private edit link, which is what makes it
-       readable by a static site. The underlying spreadsheet is
-       https://docs.google.com/spreadsheets/d/1K0_3oKBKgHF_7wfpP8Wn6C6f3Hh4E2EqE2TaSCYwGsw/edit */
-    publishedCsvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRd5PnyFcqgSkTtx_-7igsfm2BoOms0wZuX7IxnuzJn8Zj5uA7_lynyBDObXdPb9ABeqiX-MTMUN9EX/pub?gid=725590805&single=true&output=csv',
+       readable by a static site.
+
+       The live form writes to
+       https://docs.google.com/spreadsheets/d/1ijVrR4g6ETQrgkLYVR6ikQdTPtZ48VOVpK6seY1vCbo/edit
+       and this is empty until that sheet has been published to the web. Empty
+       is deliberate: the previous form's published link still resolves, and
+       pointing at it would show the old consultation's responses as though
+       they were this one's. With nothing here the results page falls back to
+       the sample data and badges itself as a sample, which is honest. */
+    publishedCsvUrl: '',
     sampleCsvUrl: 'assets/data/sample-responses.csv',
     /* Google's published-CSV endpoint sends permissive CORS headers, so the
        fetch works from any origin. If you ever host the sheet somewhere that

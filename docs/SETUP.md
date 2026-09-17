@@ -184,6 +184,7 @@ merge columns by hand.
 ## Checks you can run
 
 ```bash
+node scripts/check-headers.js FILE  # every question still finds its column
 node scripts/check-data.js          # parse the data and print what was found
 node scripts/check-taxonomy.js      # form and site content still agree
 node scripts/make-questions-doc.js  # regenerate form/QUESTIONS.md
@@ -195,3 +196,24 @@ node scripts/make-sample-data.js    # regenerate the synthetic sample data
 ```bash
 node scripts/check-data.js ~/Downloads/responses.csv
 ```
+
+### After any change to the form
+
+Reword a question in Google Forms and the site keeps up, because no column is
+matched on its exact text. But a heavy rewrite can still lose one, and the
+failure is quiet — the chart reads "No answers to this question yet" rather
+than erroring. So after editing the form, check the header row:
+
+```bash
+node scripts/check-headers.js ~/Downloads/responses.csv
+```
+
+It needs row 1 of the responses sheet and nothing else, so you can also just
+copy that row and paste it in:
+
+```bash
+pbpaste | node scripts/check-headers.js     # then Ctrl-D
+```
+
+It prints every question against the column it matched, flags any it could not
+place, and lists columns the analysis ignores.
