@@ -57,25 +57,51 @@ const REINTRODUCE_OPTIONS = [
 ];
 
 /* -----------------------------------------------------------------------------
-   UK nations and regions (ITL1 / former NUTS1). This consultation gathers the
-   views of young people living in the UK only, so these are the only locations
-   offered — the Commonwealth-facing questions ask UK young people what they
-   think about the Commonwealth, not where they live. `tile` is the column/row slot in
-   the cartogram on the results page — see map.js. `short` is the tile label.
+   Where respondents live, in alphabetical order: the twelve UK nations and
+   regions (ITL1 / former NUTS1), the three Crown Dependencies, the fourteen
+   British Overseas Territories, and a final option for anyone outside all of
+   them. The consultation is for young people living in the UK, so that last
+   option exists to be filtered out, not to be counted.
+
+   `tile` is the column/row slot in the cartogram on the results page — see
+   map.js — and `short` is the tile label. Only the twelve ITL1 nations and
+   regions carry them: the cartogram is a map of the UK, and a territory eight
+   thousand miles away has no honest square on it. Everything without a tile is
+   still counted, still charted, and still placed on the live map by postcode.
+   The presence of `tile` is what marks a nation or region as one of the twelve,
+   so do not add one to a territory.
 -------------------------------------------------------------------------------*/
 const UK_REGIONS = [
-  { id: 'scotland',   label: 'Scotland',                  short: 'SCO', tile: { col: 3, row: 0 } },
-  { id: 'ni',         label: 'Northern Ireland',          short: 'NI',  tile: { col: 2, row: 1 } },
-  { id: 'north_east', label: 'North East England',        short: 'NE',  tile: { col: 3, row: 1 } },
-  { id: 'north_west', label: 'North West England',        short: 'NW',  tile: { col: 2, row: 2 } },
-  { id: 'yorkshire',  label: 'Yorkshire and the Humber',  short: 'Y&H', tile: { col: 3, row: 2 } },
-  { id: 'wales',      label: 'Wales',                     short: 'WAL', tile: { col: 1, row: 3 } },
-  { id: 'west_mids',  label: 'West Midlands',             short: 'WM',  tile: { col: 2, row: 3 } },
-  { id: 'east_mids',  label: 'East Midlands',             short: 'EM',  tile: { col: 3, row: 3 } },
-  { id: 'east',       label: 'East of England',           short: 'EoE', tile: { col: 4, row: 3 } },
-  { id: 'south_west', label: 'South West England',        short: 'SW',  tile: { col: 2, row: 4 } },
-  { id: 'south_east', label: 'South East England',        short: 'SE',  tile: { col: 3, row: 4 } },
-  { id: 'london',     label: 'London',                    short: 'LDN', tile: { col: 4, row: 4 } }
+  { id: 'akrotiri',      label: 'Akrotiri and Dhekelia' },
+  { id: 'anguilla',      label: 'Anguilla' },
+  { id: 'bermuda',       label: 'Bermuda' },
+  { id: 'bat',           label: 'British Antarctic Territory' },
+  { id: 'biot',          label: 'British Indian Ocean Territory' },
+  { id: 'bvi',           label: 'British Virgin Islands' },
+  { id: 'cayman',        label: 'Cayman Islands' },
+  { id: 'east_mids',     label: 'East Midlands',            short: 'EM',  tile: { col: 3, row: 3 } },
+  { id: 'east',          label: 'East of England',          short: 'EoE', tile: { col: 4, row: 3 } },
+  { id: 'falklands',     label: 'Falkland Islands' },
+  { id: 'gibraltar',     label: 'Gibraltar' },
+  { id: 'guernsey',      label: 'Guernsey' },
+  { id: 'isle_of_man',   label: 'Isle of Man' },
+  { id: 'jersey',        label: 'Jersey' },
+  { id: 'london',        label: 'London',                   short: 'LDN', tile: { col: 4, row: 4 } },
+  { id: 'montserrat',    label: 'Montserrat' },
+  { id: 'north_east',    label: 'North East England',       short: 'NE',  tile: { col: 3, row: 1 } },
+  { id: 'north_west',    label: 'North West England',       short: 'NW',  tile: { col: 2, row: 2 } },
+  { id: 'ni',            label: 'Northern Ireland',         short: 'NI',  tile: { col: 2, row: 1 } },
+  { id: 'pitcairn',      label: 'Pitcairn Islands' },
+  { id: 'st_helena',     label: 'Saint Helena, Ascension and Tristan da Cunha' },
+  { id: 'scotland',      label: 'Scotland',                 short: 'SCO', tile: { col: 3, row: 0 } },
+  { id: 'south_east',    label: 'South East England',       short: 'SE',  tile: { col: 3, row: 4 } },
+  { id: 'south_georgia', label: 'South Georgia and the South Sandwich Islands' },
+  { id: 'south_west',    label: 'South West England',       short: 'SW',  tile: { col: 2, row: 4 } },
+  { id: 'turks_caicos',  label: 'Turks and Caicos Islands' },
+  { id: 'wales',         label: 'Wales',                    short: 'WAL', tile: { col: 1, row: 3 } },
+  { id: 'west_mids',     label: 'West Midlands',            short: 'WM',  tile: { col: 2, row: 3 } },
+  { id: 'yorkshire',     label: 'Yorkshire and the Humber', short: 'Y&H', tile: { col: 3, row: 2 } },
+  { id: 'outside_uk',    label: 'I live outside the UK' }
 ];
 
 const AGE_BANDS = [

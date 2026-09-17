@@ -297,7 +297,9 @@ function summarise(rows) {
     shortTerm: batteryStats(rows, 'short_term'),
     gaps: priorityGaps(rows),
     reintroduce: reintroduceCounts(rows),
-    regionsCovered: T.UK_REGIONS.filter(reg => rows.some(r => r.ukRegion === reg.id)).length,
+    /* The twelve ITL1 nations and regions only — `tile` is what marks them.
+       A reply from Gibraltar is welcome but it is not UK coverage. */
+    regionsCovered: T.UK_REGIONS.filter(reg => reg.tile && rows.some(r => r.ukRegion === reg.id)).length,
     firstResponse: rows.map(r => r.timestamp).filter(Boolean).sort((a, b) => a - b)[0] || null,
     lastResponse: rows.map(r => r.timestamp).filter(Boolean).sort((a, b) => b - a)[0] || null
   };

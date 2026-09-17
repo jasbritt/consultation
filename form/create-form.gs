@@ -11,7 +11,7 @@
  *      assets/js/config.js.
  *
  * WHY A SCRIPT RATHER THAN CLICKING IT TOGETHER
- *   There are 36 rating cells, 14 checkbox options and 56 country options. Built
+ *   There are 36 rating cells, 14 checkbox options and 30 location options. Built
  *   by hand, the question wording drifts from the wording the website matches
  *   against, and the charts quietly stop finding their columns. Generating the
  *   form guarantees the spreadsheet headers are exactly what assets/js/data.js
@@ -81,9 +81,15 @@ var REINTRODUCE_OPTIONS = [
 ];
 
 var UK_REGIONS = [
-  'Scotland', 'Northern Ireland', 'North East England', 'North West England',
-  'Yorkshire and the Humber', 'Wales', 'West Midlands', 'East Midlands',
-  'East of England', 'South West England', 'South East England', 'London'
+  'Akrotiri and Dhekelia', 'Anguilla', 'Bermuda', 'British Antarctic Territory',
+  'British Indian Ocean Territory', 'British Virgin Islands', 'Cayman Islands',
+  'East Midlands', 'East of England', 'Falkland Islands', 'Gibraltar', 'Guernsey',
+  'Isle of Man', 'Jersey', 'London', 'Montserrat', 'North East England',
+  'North West England', 'Northern Ireland', 'Pitcairn Islands',
+  'Saint Helena, Ascension and Tristan da Cunha', 'Scotland', 'South East England',
+  'South Georgia and the South Sandwich Islands', 'South West England',
+  'Turks and Caicos Islands', 'Wales', 'West Midlands', 'Yorkshire and the Humber',
+  'I live outside the UK'
 ];
 
 var AGE_BANDS = ['Under 13', '13 to 15', '16 to 18', '19 to 21', '22 to 25', 'Over 25'];
@@ -178,10 +184,14 @@ function addAboutYou_(form) {
       .setChoiceValues(AGE_BANDS)
       .setRequired(true);
 
-  form.addMultipleChoiceItem()
+  /* A dropdown rather than a radio list: thirty options as radio buttons is a
+     page of scrolling before the questions that matter. */
+  form.addListItem()
       .setTitle('Which nation or region of the UK do you live in?')
       .setChoiceValues(UK_REGIONS)
-      .setHelpText('If you are not sure which region you are in, pick the nearest large city’s region.')
+      .setHelpText('Listed alphabetically, and including the Crown Dependencies and the British ' +
+                   'Overseas Territories. If you are not sure which region you are in, pick the ' +
+                   'nearest large city’s region.')
       .setRequired(true);
 
   form.addTextItem()

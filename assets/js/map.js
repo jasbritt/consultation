@@ -12,6 +12,11 @@
    Encoding: one hue, light to dark, six classes — the sequential rule. A region
    with no responses gets the neutral "no data" step, never the lightest blue,
    so "nobody answered" never looks like "a few answered".
+
+   Only the twelve nations and regions that carry a `tile` in taxonomy.js are
+   drawn. The Crown Dependencies and the Overseas Territories are also offered
+   on the form, and they are named in a line beneath the map when anyone from
+   them replies, because a tile map of the UK has nowhere honest to put them.
    ========================================================================== */
 
 const SEQ_STEPS = ['--seq-150', '--seq-250', '--seq-350', '--seq-450', '--seq-550', '--seq-700'];
@@ -43,6 +48,15 @@ function choropleth(container, { items, total, unitLabel = 'responses' }) {
     const byId = Object.fromEntries(items.map(i => [i.id, i.count]));
     const max = Math.max(0, ...items.map(i => i.count));
 
+    /* Only the twelve ITL1 nations and regions have a square on a map of the
+       UK. The Crown Dependencies and the Overseas Territories are counted in
+       `items` and named underneath instead — dropping them silently would
+       understate the response count. */
+    const tiled = T.UK_REGIONS.filter(r => r.tile);
+    const elsewhere = T.UK_REGIONS
+      .filter(r => !r.tile && r.id !== 'outside_uk' && (byId[r.id] || 0) > 0)
+      .map(r => ({ label: r.label, count: byId[r.id] }));
+
     const cols = 4, rows = 5;
     const gap = 6;
     const boxW = Math.max(180, Math.min(width, 460));
@@ -54,13 +68,13 @@ function choropleth(container, { items, total, unitLabel = 'responses' }) {
       class: 'chart', viewBox: `0 0 ${w} ${h}`, width: w, height: h,
       role: 'img',
       'aria-label': `Tile map of the United Kingdom showing ${unitLabel} by nation and region. ` +
-        T.UK_REGIONS.map(r => `${r.label}: ${byId[r.id] || 0}`).join('. ')
+        tiled.map(r => `${r.label}: ${byId[r.id] || 0}`).join('. ')
     }, root);
 
     const zero = C.token('--seq-zero', '#f0efec');
     const inkOnLight = C.token('--ink', '#0b0b0b');
 
-    T.UK_REGIONS.forEach(region => {
+    tiled.forEach(region => {
       const count = byId[region.id] || 0;
       const cls = classify(count, max);
       const fill = cls === null ? zero : C.token(SEQ_STEPS[cls]);
@@ -98,6 +112,18 @@ function choropleth(container, { items, total, unitLabel = 'responses' }) {
         C.tipRow(unitLabel.replace(/^./, c => c.toUpperCase()), count.toLocaleString('en-GB')) +
         C.tipRow('Share of total', `${share}%`));
     });
+
+    if (elsewhere.length) {
+      const n = elsewhere.reduce((a, r) => a + r.count, 0);
+      const note = document.createElement('p');
+      note.className = 'muted';
+      note.style.cssText = 'font-size:var(--step--2);margin:var(--sp-3) 0 0';
+      note.textContent =
+        `Plus ${n.toLocaleString('en-GB')} ${n === 1 ? 'response' : 'responses'} from ` +
+        `${elsewhere.map(r => `${r.label} (${r.count.toLocaleString('en-GB')})`).join(', ')}, ` +
+        `which sit outside the tile map.`;
+      root.appendChild(note);
+    }
   });
 }
 

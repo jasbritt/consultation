@@ -43,7 +43,11 @@ function ratingAround(mean, sd = 2.1) {
 const REGION_WEIGHTS = [
   ['london', 14], ['south_east', 14], ['north_west', 11], ['east', 9.5], ['west_mids', 9],
   ['south_west', 8.5], ['yorkshire', 8], ['scotland', 8], ['east_mids', 7.5],
-  ['wales', 4.7], ['north_east', 3.8], ['ni', 2.8]
+  ['wales', 4.7], ['north_east', 3.8], ['ni', 2.8],
+  /* A thin tail from the Crown Dependencies and the Overseas Territories, so
+     the sample exercises the line that names them beneath the tile map. */
+  ['jersey', 0.35], ['guernsey', 0.3], ['isle_of_man', 0.35], ['gibraltar', 0.4],
+  ['falklands', 0.15], ['bermuda', 0.15]
 ];
 
 /* Population means for each battery. The interesting shape is deliberate and
@@ -183,7 +187,15 @@ const REGION_POSTCODES = {
   east:       ['CB1','NR1','IP1','CO1','CM1','SS1','PE1','LU1','AL1','SG1','HP1','MK1'],
   south_west: ['BS8','BS1','BA1','EX1','PL4','TR1','TQ1','GL1','SN1','DT1','TA1'],
   south_east: ['RG1','GU1','SL1','OX1','PO1','SO14','BN1','ME1','CT1','TN1','RH1','KT1'],
-  london:     ['SW1A','SE1','E1','EC1A','N1','NW1','W1A','WC1A','BR1','CR0','EN1','HA1','IG1','RM1','SM1','TW1','UB1']
+  london:     ['SW1A','SE1','E1','EC1A','N1','NW1','W1A','WC1A','BR1','CR0','EN1','HA1','IG1','RM1','SM1','TW1','UB1'],
+  jersey:     ['JE1','JE2','JE3'],
+  guernsey:   ['GY1','GY2','GY8'],
+  isle_of_man:['IM1','IM2','IM4'],
+  gibraltar:  ['GX11'],
+  falklands:  ['FIQQ'],
+  /* Bermuda runs its own scheme and its prefixes collide with UK areas, so the
+     sample leaves the postcode blank — see assets/js/postcodes.js. */
+  bermuda:    []
 };
 
 function buildRow(i) {
@@ -213,7 +225,7 @@ function buildRow(i) {
     [H.timestamp]: timestampFor(i),
     [H.age]: T.AGE_BANDS.find(b => b.id === age).label,
     [H.region]: region.label,
-    [H.postcode]: rnd() < 0.55 ? pick(REGION_POSTCODES[region.id]) : '',
+    [H.postcode]: rnd() < 0.55 ? (pick(REGION_POSTCODES[region.id] || []) || '') : '',
     [H.organisation]: weightedPick([['Yes', 34], ['No', 58], ['Prefer not to say', 8]]),
     [H.reintroduce]: reintroduce,
     [H.reintroduceText]: pick(REINTRODUCE_TEXT),

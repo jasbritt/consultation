@@ -144,8 +144,21 @@ const POSTCODE_AREAS = {
   YO: ['York', 'North Yorkshire', 53.960, -1.083],
   ZE: ['Lerwick', 'Shetland', 60.155, -1.145],
 
-  /* Crown dependencies use ordinary areas (GY, JE, IM, above). The Overseas
-     Territories use a single fixed code each, so the whole code is the key. */
+  /* Crown dependencies use ordinary areas (GY, JE, IM, above). Most Overseas
+     Territories use a single fixed UK-format code each, so the whole code is
+     the key.
+
+     Three Caribbean territories run their own schemes instead, and only these
+     three have a prefix that does not collide with a UK postcode area:
+     Anguilla AI-2640, the British Virgin Islands VG1110, Montserrat MSR1110.
+     Bermuda (HM, CR, FL, PG, SN...), the Cayman Islands (KY1-) and the
+     Sovereign Base Areas (BFPO) are deliberately absent: KY is Kirkcaldy, CR
+     is Croydon, FL is Falkirk, and plotting a Bermudian in south London would
+     be worse than leaving them off the map. They are still counted by nation
+     and region — only the dot is missing. */
+  AI:   ['The Valley', 'Anguilla', 18.217, -63.058],
+  VG:   ['Road Town', 'British Virgin Islands', 18.428, -64.618],
+  MSR:  ['Brades', 'Montserrat', 16.792, -62.211],
   GX:   ['Gibraltar', 'Gibraltar', 36.141, -5.353],
   FIQQ: ['Stanley', 'Falkland Islands', -51.696, -57.852],
   ASCN: ['Georgetown', 'Ascension Island', -7.930, -14.410],
@@ -159,7 +172,8 @@ const POSTCODE_AREAS = {
 };
 
 /* Territories whose respondents sit outside the UK view, so the map can say so. */
-const OVERSEAS_KEYS = ['GX', 'FIQQ', 'ASCN', 'STHL', 'TDCU', 'TKCA', 'BBND', 'PCRN', 'SIQQ', 'BIQQ'];
+const OVERSEAS_KEYS = ['AI', 'VG', 'MSR', 'GX', 'FIQQ', 'ASCN', 'STHL', 'TDCU', 'TKCA',
+                       'BBND', 'PCRN', 'SIQQ', 'BIQQ'];
 
 /* "SW1A" -> "SW", "M14" -> "M", "FIQQ" -> "FIQQ". */
 function areaOf(outward) {

@@ -109,7 +109,7 @@
       ? 'Sample data for demonstration'
       : target ? `${pct(Math.min(1, s.total / target))} of the ${num(target)} target` : '';
 
-    $('#stat-regions').textContent = `${s.regionsCovered} / 12`;
+    $('#stat-regions').textContent = `${s.regionsCovered} / ${T.UK_REGIONS.filter(r => r.tile).length}`;
 
     const topGap = [...s.gaps].filter(g => g.gap !== null).sort((a, b) => b.gap - a.gap)[0];
     if (topGap) {
@@ -401,7 +401,8 @@
   function renderPlaceholderMap() {
     const host = $('#error-map');
     if (!host || host.dataset.drawn) return;
-    const empty = T.UK_REGIONS.map(r => ({ id: r.id, label: r.label, short: r.short, count: 0 }));
+    const empty = T.UK_REGIONS.filter(r => r.tile)
+      .map(r => ({ id: r.id, label: r.label, short: r.short, count: 0 }));
     M.choropleth(host, { items: empty, total: 0, unitLabel: 'responses' });
     $('#error-map-note').innerHTML =
       `<p class="muted" style="font-size:var(--step--1);margin:0">
