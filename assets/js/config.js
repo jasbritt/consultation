@@ -56,12 +56,11 @@ const CONFIG = {
 
        The live form writes to
        https://docs.google.com/spreadsheets/d/1ijVrR4g6ETQrgkLYVR6ikQdTPtZ48VOVpK6seY1vCbo/edit
-       and this is empty until that sheet has been published to the web. Empty
-       is deliberate: the previous form's published link still resolves, and
-       pointing at it would show the old consultation's responses as though
-       they were this one's. With nothing here the results page falls back to
-       the sample data and badges itself as a sample, which is honest. */
-    publishedCsvUrl: '',
+       and this is that sheet's Form Responses tab, published as CSV. All 55 of
+       its columns were checked against the analysis on 17 September 2026 with
+       scripts/check-headers.js: every question found its column. Re-run that
+       check after any edit to the form. */
+    publishedCsvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZAF0TYRFhVXPS0ZAUciZQy2oYD1PPt55jDw6H0SLZypljkK7eNaaY46zIiI0CHF6wn7GeLiowu0D3/pub?gid=1166533512&single=true&output=csv',
     sampleCsvUrl: 'assets/data/sample-responses.csv',
     /* Google's published-CSV endpoint sends permissive CORS headers, so the
        fetch works from any origin. If you ever host the sheet somewhere that
