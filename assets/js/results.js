@@ -43,6 +43,17 @@
     $('#status-text').textContent = text;
   }
 
+  /* Filtering and downloading need a dataset behind them. Until the results are
+     connected there is none, so the controls are disabled rather than left
+     live to throw. "Connect data" and "Refresh" stay enabled: they are how you
+     get out of that state. */
+  function setDataControls(enabled) {
+    ['#filter-region', '#filter-age', '#btn-download'].forEach(sel => {
+      const el = $(sel);
+      if (el) el.disabled = !enabled;
+    });
+  }
+
   /* ---------- filters ------------------------------------------------------ */
   function initFilters() {
     const region = $('#filter-region');
@@ -100,6 +111,7 @@
     $('#loading-state').hidden = true;
     $('#error-state').hidden = true;
     $('#dashboard').hidden = false;
+    setDataControls(true);
   }
 
   function renderHeadline(s, rows) {
@@ -417,6 +429,7 @@
   /* ---------- downloads ---------------------------------------------------- */
   function downloadAggregates() {
     const s = state.summary;
+    if (!s) return;
     const rows = [['UK Young Ambassadors CHOGM Youth Consultation: aggregate results'],
                   ['Generated', localTimestamp()],
                   ['Responses in this view', s.total],
@@ -527,17 +540,27 @@
       const src = state.dataset.source;
       setStatus(src.kind === 'sample' ? 'sample' : 'live',
         src.kind === 'sample'
-          ? 'Showing sample data — no live responses connected'
+          ? 'Showing sample data, not real responses'
           : `${num(state.dataset.rows.length)} responses · updated ${state.dataset.loadedAt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}`);
       state.quoteLimit = 6;
       render();
     } catch (err) {
       console.error(err);
-      setStatus('error', 'Could not load the data');
+      /* Nothing connected is a different thing from a connection that broke.
+         The first is the ordinary state before the results are published and
+         should not read as a fault, and no amount of retrying will change it. */
+      const notConnected = err.code === 'not-connected';
+      setStatus(notConnected ? '' : 'error',
+        notConnected ? 'Results not published yet' : 'Could not load the data');
       $('#loading-state').hidden = true;
       $('#dashboard').hidden = true;
       $('#error-state').hidden = false;
+      $('#error-title').textContent = notConnected
+        ? 'The results are not published yet'
+        : 'The results could not be loaded';
       $('#error-message').textContent = err.message;
+      $('#error-retry').hidden = notConnected;
+      setDataControls(false);
       renderPlaceholderMap();
     }
   }

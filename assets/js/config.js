@@ -46,9 +46,12 @@ const CONFIG = {
 
      The results page also accepts, in order of precedence:
        1. ?csv=<url> in the address bar,
-       2. a URL saved in this browser via the "Connect data" panel,
-       3. this value,
-       4. the bundled sample data (clearly badged as sample).                 */
+       2. ?sample=1, which loads the bundled sample data and badges it,
+       3. a URL saved in this browser via the "Connect data" panel,
+       4. this value.
+     With none of those, the page says the results are not published yet. It
+     never falls back to the sample on its own — a visitor cannot tell
+     synthetic numbers from real ones, and nor can a screenshot.            */
   data: {
     /* The responses sheet published to the web as CSV. This is a read-only
        published link, not the private edit link, which is what makes it

@@ -13,7 +13,7 @@ Allow about an hour for the first four steps.
 - [ ] **4. Get written permission for every logo** before adding it
 - [ ] **5. Have the privacy notice reviewed** by whoever is data controller
 - [ ] **6. Test a real submission** end to end
-- [ ] **7. Delete the sample data** so nobody can mistake it for real results
+- [ ] **7. Check the results page** reads "not published yet" until the sheet is connected
 - [ ] **8. Set `draftMode: false`** once 4 and 5 are genuinely done
 - [ ] **9. Publish the site**
 
@@ -124,18 +124,29 @@ If a rating column shows as unmatched, the wording in the form has drifted from
 `assets/js/taxonomy.js`. Run `node scripts/check-taxonomy.js` to see exactly
 which.
 
-## 7. Remove the sample data
+## 7. The sample data
 
-```bash
-rm assets/data/sample-responses.csv
+You do not have to do anything here. The results page never shows the sample on
+its own: with nothing connected it says the results are not published yet, and
+if a live connection breaks it says so rather than quietly substituting
+synthetic numbers. A visitor cannot tell the difference between real and
+synthetic figures, and nor can a screenshot of them.
+
+To see the sample deliberately — designing the page, or demonstrating it before
+any responses exist — add `?sample=1` to the results URL:
+
+```
+results.html?sample=1
 ```
 
-Then set `sampleCsvUrl: ''` in `config.js`. The site will show "could not load
-the data" instead of synthetic numbers if the real connection ever breaks, which
-is the safer failure.
+It is badged as sample data in the status pill and under the response count.
 
-Keep the file while you are still building and demonstrating — the site badges it
-clearly as sample data everywhere it appears, including on the report.
+The file is also what `scripts/check-data.js` runs against, so deleting it costs
+you that check. If you want it gone from the deployed site anyway:
+
+```bash
+rm assets/data/sample-responses.csv     # regenerate: node scripts/make-sample-data.js
+```
 
 ---
 

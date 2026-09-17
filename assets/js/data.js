@@ -307,22 +307,39 @@ function summarise(rows) {
 
 /* ---------- loading -------------------------------------------------------- */
 
-/* Resolve which source to use, in the documented order of precedence. */
+/* Resolve which source to use, in the documented order of precedence.
+   Returns null when nothing is connected.
+
+   Nothing here ever falls back to the sample. Synthetic numbers on a public
+   results page are worse than an honest "not connected yet": a visitor cannot
+   tell the difference, and neither can a screenshot. The sample is opt-in, via
+   ?sample=1, for designing and demonstrating the page before responses exist. */
 function resolveSource(config) {
   const params = new URLSearchParams(typeof location !== 'undefined' ? location.search : '');
   const fromUrl = params.get('csv');
   if (fromUrl) return { url: fromUrl, kind: 'live', origin: 'address bar' };
+
+  if (params.get('sample') === '1' && config.data.sampleCsvUrl) {
+    return { url: config.data.sampleCsvUrl, kind: 'sample', origin: 'bundled sample' };
+  }
 
   let saved = null;
   try { saved = localStorage.getItem('chogm:csvUrl'); } catch (e) { /* private mode */ }
   if (saved) return { url: saved, kind: 'live', origin: 'saved in this browser' };
 
   if (config.data.publishedCsvUrl) return { url: config.data.publishedCsvUrl, kind: 'live', origin: 'config.js' };
-  return { url: config.data.sampleCsvUrl, kind: 'sample', origin: 'bundled sample' };
+  return null;
 }
 
 async function loadDataset(config) {
   const source = resolveSource(config);
+  if (!source) {
+    /* Flagged so the page can say "not published yet" rather than "failed",
+       and drop the retry button, since retrying cannot help. */
+    const err = new Error('The results are not connected yet, so there is nothing to show. They will appear here once the consultation data is published.');
+    err.code = 'not-connected';
+    throw err;
+  }
   const res = await fetch(source.url, { cache: 'no-store' });
   if (!res.ok) throw new Error(`Could not read the data source (HTTP ${res.status}). Check the sheet is published to the web.`);
   const text = await res.text();
