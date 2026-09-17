@@ -146,16 +146,9 @@ const POSTCODE_AREAS = {
 
   /* Crown dependencies use ordinary areas (GY, JE, IM, above). Most Overseas
      Territories use a single fixed UK-format code each, so the whole code is
-     the key.
-
-     Three Caribbean territories run their own schemes instead, and only these
-     three have a prefix that does not collide with a UK postcode area:
-     Anguilla AI-2640, the British Virgin Islands VG1110, Montserrat MSR1110.
-     Bermuda (HM, CR, FL, PG, SN...), the Cayman Islands (KY1-) and the
-     Sovereign Base Areas (BFPO) are deliberately absent: KY is Kirkcaldy, CR
-     is Croydon, FL is Falkirk, and plotting a Bermudian in south London would
-     be worse than leaving them off the map. They are still counted by nation
-     and region — only the dot is missing. */
+     the key. The three Caribbean territories whose own schemes happen not to
+     collide with a UK area are here too. Everything that does collide is
+     resolved from the region answer instead — see REGION_PLACES below. */
   AI:   ['The Valley', 'Anguilla', 18.217, -63.058],
   VG:   ['Road Town', 'British Virgin Islands', 18.428, -64.618],
   MSR:  ['Brades', 'Montserrat', 16.792, -62.211],
@@ -175,6 +168,36 @@ const POSTCODE_AREAS = {
 const OVERSEAS_KEYS = ['AI', 'VG', 'MSR', 'GX', 'FIQQ', 'ASCN', 'STHL', 'TDCU', 'TKCA',
                        'BBND', 'PCRN', 'SIQQ', 'BIQQ'];
 
+/* Where each Crown Dependency and Overseas Territory sits, keyed by the region
+   id in taxonomy.js.
+
+   Several of them run postcode schemes whose prefixes collide head-on with UK
+   areas: the Cayman Islands use KY1-1001 and KY is Kirkcaldy; Bermuda uses
+   parish codes including CR (Croydon), FL (Falkirk), DD (Dundee) and SN
+   (Swindon); the Sovereign Base Areas use BFPO. Read on its own, a Caymanian's
+   postcode puts them in Fife. But nobody answers the postcode question without
+   first answering the region question, and the two together are unambiguous —
+   so the region is what decides, and the postcode only refines it. */
+const REGION_PLACES = {
+  akrotiri:      ['Episkopi Cantonment', 'Akrotiri and Dhekelia', 34.668, 32.864],
+  anguilla:      ['The Valley', 'Anguilla', 18.217, -63.058],
+  bermuda:       ['Hamilton', 'Bermuda', 32.294, -64.781],
+  bat:           ['Rothera', 'British Antarctic Territory', -67.568, -68.127],
+  biot:          ['Diego Garcia', 'British Indian Ocean Territory', -7.313, 72.411],
+  bvi:           ['Road Town', 'British Virgin Islands', 18.428, -64.618],
+  cayman:        ['George Town', 'Cayman Islands', 19.286, -81.367],
+  falklands:     ['Stanley', 'Falkland Islands', -51.696, -57.852],
+  gibraltar:     ['Gibraltar', 'Gibraltar', 36.141, -5.353],
+  guernsey:      ['St Peter Port', 'Guernsey', 49.455, -2.536],
+  isle_of_man:   ['Douglas', 'Isle of Man', 54.152, -4.486],
+  jersey:        ['St Helier', 'Jersey', 49.187, -2.107],
+  montserrat:    ['Brades', 'Montserrat', 16.792, -62.211],
+  pitcairn:      ['Adamstown', 'Pitcairn Islands', -25.066, -130.101],
+  st_helena:     ['Jamestown', 'Saint Helena', -15.928, -5.717],
+  south_georgia: ['King Edward Point', 'South Georgia', -54.283, -36.500],
+  turks_caicos:  ['Cockburn Town', 'Turks and Caicos Islands', 21.467, -71.136]
+};
+
 /* "SW1A" -> "SW", "M14" -> "M", "FIQQ" -> "FIQQ". */
 function areaOf(outward) {
   const code = String(outward || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
@@ -184,13 +207,35 @@ function areaOf(outward) {
   return letters && POSTCODE_AREAS[letters] ? letters : null;
 }
 
-function locate(outward) {
+/* Resolve one response to a point. `regionId` is the answer to the region
+   question and is optional, but without it a colliding territory postcode is
+   read as the UK area it looks like.
+
+   A respondent is only ever placed when they gave a postcode. Naming a
+   territory is enough to say where the dot belongs, but not enough to say they
+   wanted one, and the map's footnote counts responses placed by postcode. */
+function locate(outward, regionId) {
   const area = areaOf(outward);
+  const place = regionId ? REGION_PLACES[regionId] : null;
+
+  if (place) {
+    if (!outward) return null;
+    /* A whole-code territory postcode is more specific than the region it sits
+       in — ASCN and TDCU are both inside "Saint Helena, Ascension and Tristan
+       da Cunha" — so prefer it when one was given. */
+    if (area && OVERSEAS_KEYS.includes(area)) {
+      const [town, county, lat, lon] = POSTCODE_AREAS[area];
+      return { key: area, area, town, county, lat, lon, overseas: true };
+    }
+    const [town, county, lat, lon] = place;
+    return { key: `region:${regionId}`, area, town, county, lat, lon, overseas: true };
+  }
+
   if (!area) return null;
   const [town, county, lat, lon] = POSTCODE_AREAS[area];
-  return { area, town, county, lat, lon, overseas: OVERSEAS_KEYS.includes(area) };
+  return { key: area, area, town, county, lat, lon, overseas: OVERSEAS_KEYS.includes(area) };
 }
 
-const POSTCODES = { POSTCODE_AREAS, OVERSEAS_KEYS, areaOf, locate };
+const POSTCODES = { POSTCODE_AREAS, OVERSEAS_KEYS, REGION_PLACES, areaOf, locate };
 if (typeof module !== 'undefined' && module.exports) module.exports = POSTCODES;
 if (typeof window !== 'undefined') window.POSTCODES = POSTCODES;

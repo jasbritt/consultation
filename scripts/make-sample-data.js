@@ -47,7 +47,7 @@ const REGION_WEIGHTS = [
   /* A thin tail from the Crown Dependencies and the Overseas Territories, so
      the sample exercises the line that names them beneath the tile map. */
   ['jersey', 0.35], ['guernsey', 0.3], ['isle_of_man', 0.35], ['gibraltar', 0.4],
-  ['falklands', 0.15], ['bermuda', 0.15]
+  ['falklands', 0.15], ['bermuda', 0.2], ['cayman', 0.2]
 ];
 
 /* Population means for each battery. The interesting shape is deliberate and
@@ -193,9 +193,12 @@ const REGION_POSTCODES = {
   isle_of_man:['IM1','IM2','IM4'],
   gibraltar:  ['GX11'],
   falklands:  ['FIQQ'],
-  /* Bermuda runs its own scheme and its prefixes collide with UK areas, so the
-     sample leaves the postcode blank — see assets/js/postcodes.js. */
-  bermuda:    []
+  /* Deliberately the colliding ones: HM and CR are Bermuda parishes but also
+     Hemel Hempstead and Croydon, and KY1 is both Grand Cayman and Kirkcaldy.
+     They are here so the sample exercises the region-aware lookup in
+     assets/js/postcodes.js rather than quietly avoiding it. */
+  bermuda:    ['HM12', 'CR04', 'FL07'],
+  cayman:     ['KY1', 'KY2']
 };
 
 function buildRow(i) {

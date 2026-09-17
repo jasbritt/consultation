@@ -173,7 +173,7 @@
       $('#map-legend').innerHTML = '';
       $('#map-foot').textContent =
         `${num(placed)} of ${num(s.total)} responses are placed by postcode across ${places.length} ` +
-        `postcode area${places.length === 1 ? '' : 's'}.${filterCaption()}`;
+        `location${places.length === 1 ? '' : 's'}.${filterCaption()}`;
     });
   }
 

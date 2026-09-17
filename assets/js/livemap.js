@@ -35,19 +35,21 @@ function loadOnce(tag, attrs, timeout = 8000) {
   });
 }
 
-/* Group rows by postcode area. Rows without a usable postcode are counted
-   separately so the map can say how many it could not place. */
+/* Group rows by place. The region answer is passed alongside the postcode
+   because several territories use prefixes that collide with UK areas, and the
+   pair resolves what neither does alone. Rows without a usable postcode are
+   counted separately so the map can say how many it could not place. */
 function locations(rows) {
-  const byArea = new Map();
+  const byPlace = new Map();
   let unplaced = 0;
   rows.forEach(r => {
-    const found = window.POSTCODES.locate(r.postcodeArea);
+    const found = window.POSTCODES.locate(r.postcodeArea, r.ukRegion);
     if (!found) { unplaced++; return; }
-    const entry = byArea.get(found.area) || { ...found, count: 0 };
+    const entry = byPlace.get(found.key) || { ...found, count: 0 };
     entry.count++;
-    byArea.set(found.area, entry);
+    byPlace.set(found.key, entry);
   });
-  return { places: [...byArea.values()].sort((a, b) => b.count - a.count), unplaced };
+  return { places: [...byPlace.values()].sort((a, b) => b.count - a.count), unplaced };
 }
 
 function escapeHtml(s) {
