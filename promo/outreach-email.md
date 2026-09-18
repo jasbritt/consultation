@@ -10,10 +10,11 @@ between an organisation agreeing to help and an organisation actually doing it.
 
 ---
 
-Dear [name],
+Dear colleagues,
 
-I am writing on behalf of the UK Young Ambassadors, who represent young people
-from across the UK in Commonwealth institutions, policy spaces and forums.
+I am writing to Youth Council UK member organisations on behalf of the UK Young
+Ambassadors, who represent young people from across the UK in Commonwealth
+institutions, policy spaces and forums.
 
 We have launched a national consultation asking young people what they want
 changed. The findings will inform the positions we carry to the Commonwealth
@@ -93,6 +94,83 @@ ukyoungambassadors@gmail.com
 > Commonwealth Youth Forum in November. Members are asked to complete the
 > consultation during this item at bit.ly/46wjJPB. It takes about nine minutes
 > and asks for no personal details.
+
+---
+
+## Sending it
+
+### The greeting
+
+**Dear colleagues,** is the one to use when it goes to everyone at once. It is
+peer to peer, it reads naturally to a single reader even though hundreds
+received it, and it does not pretend to know who opened it.
+
+The alternative is **Dear Youth Council UK member organisations,** which is more
+formal and names the audience outright. Either works. What does not work is a
+greeting that tries to be personal while going to a list, because the reader can
+tell, and it makes the rest of the email feel automated.
+
+Worth keeping either way: the opening line now says who the email went to. A
+blind copied email otherwise gives the reader no idea whether they are one of
+five recipients or five hundred, and being told is more respectful than leaving
+them to guess.
+
+If you mail merge instead (below), use **Dear [Organisation name],** and delete
+the "I am writing to Youth Council UK member organisations" clause, since each
+message is then genuinely addressed to one organisation.
+
+### Blind copy, and why it matters here
+
+Yes — put every recipient in **BCC**, not To or CC.
+
+Two reasons. The first is data protection: addresses in To or CC are visible to
+everyone who receives the message. Where those are named individuals rather than
+generic inboxes, that is personal data disclosed to hundreds of third parties
+without consent, and sending a bulk email with addresses in CC instead of BCC is
+one of the most frequently reported breaches to the ICO. It would be a poor look
+for a consultation that publishes a privacy notice. The second is practical: BCC
+prevents a reply-all chain across the whole membership.
+
+Mechanically, put **ukyoungambassadors@gmail.com in the To field** and everyone
+else in BCC. Some mail clients will not send with an empty To, and an email
+addressed from you to you is unremarkable.
+
+Check the To field twice before sending. This is not a mistake you can undo.
+
+### How many at once
+
+Gmail's published limits at the time of writing:
+
+| Account | Recipients per day | Recipients per message |
+| --- | --- | --- |
+| Free @gmail.com | 500 | 500 |
+| Google Workspace | 2,000 | 2,000 (500 via SMTP) |
+
+Every BCC address counts as one recipient. Go over and Google suspends sending
+from the account for around 24 hours, which is worth avoiding the week you are
+promoting something. These limits change, so confirm them against Google's own
+support pages before a large send.
+
+**Send in batches of 25 to 50 rather than one large blind copy.** A message with
+one visible recipient and three hundred hidden ones is the exact shape of bulk
+mail, and organisational mail servers — councils, schools, charities with
+filtering — are the ones most likely to reject it or file it as spam. Being
+delivered matters more than being sent in one go.
+
+### Better than BCC, if you have half an hour
+
+A mail merge sends each organisation its own email, addressed to it by name.
+Deliverability is far better, the greeting problem disappears, and you can see
+who opened it.
+
+- **Google Workspace:** Gmail has this built in. In the compose window, press
+  the layout icon and choose multi-send.
+- **Free Gmail:** use a Google Sheets mail merge add-on, with a sheet of
+  organisation names and addresses.
+
+Given the consultation closes on 1 November and the Youth Forum begins the day
+after, the difference between an email that lands in an inbox and one that lands
+in a spam folder is worth the setup time.
 
 ---
 
